@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #050508 0%, #0a0a14 40%, #0f0f1a 70%, #050508 100%);
+  color: white;
+}
+
+/* NAVBAR */
+nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: linear-gradient(90deg, rgba(0,245,255,0.08) 0%, rgba(0,119,255,0.05) 50%, rgba(0,245,255,0.08) 100%);
+  backdrop-filter: blur(15px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  border-bottom: 1px solid rgba(0,245,255,0.2);
+  z-index: 1000;
+}
+
+nav .brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+nav .brand h3 {
+  color: #00f5ff;
+  font-size: 20px;
+}
+
+nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+nav a {
+  padding: 8px 15px;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: linear-gradient(45deg, #00f5ff, #0077ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-profile {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 20%;
+  border: 2px solid #00f5ff;
+  box-shadow: 0 0 10px #00f5ff;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(5,5,8,0.75) 0%, rgba(10,10,20,0.65) 50%, rgba(5,5,8,0.75) 100%);
+  text-align: center;
+}
+
+.profile-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 10px;
+}
+
+.profile-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #00f5ff, #0077ff, #00f5ff);
+  animation: rotate 4s linear infinite;
+  z-index: 0;
+}
+
+.profile-wrapper img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.hero h2 {
+  font-size: 48px;
+  color: #00f5ff;
+}
+
+.typing {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #aaa;
+  border-right: 2px solid #00f5ff;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* BUTTON */
+.btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #00f5ff;
+  border: none;
+  color: black;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(45deg, #00f5ff, #0077ff);
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.6);
+}
+
+/* SECTIONS */
+section {
+  padding: 80px 10%;
+}
+
+.section-title {
+  color: #00f5ff;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+/* SKILLS */
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.skill {
+  padding: 20px;
+  background: #111;
+  border-radius: 10px;
+  border: 1px solid #222;
+  transition: 0.3s;
+}
+
+.skill:hover {
+  border-color: #00f5ff;
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 119, 255, 0.3);
+}
+
+/* PROJECTS */
+.projects-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.project {
+  padding: 20px;
+  background: #111;
+  border-radius: 10px;
+  border: 1px solid #222;
+  transition: 0.3s;
+}
+
+.project:hover {
+  transform: translateY(-5px);
+  border-color: #00f5ff;
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.4), 0 0 40px rgba(0, 119, 255, 0.3);
+}
+
+.project h3 {
+  color: #00f5ff;
+  margin-bottom: 10px;
+}
+
+.project p {
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* EDUCATION */
+.education-container {
+  display: grid;
+  gap: 20px;
+}
+
+.edu-card {
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #222;
+  transition: 0.3s;
+}
+
+.edu-card:hover {
+  transform: translateY(-5px);
+  border-color: #00f5ff;
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.4), 0 0 40px rgba(0, 119, 255, 0.3);
+}
+
+.edu-card h3 {
+  color: #00f5ff;
+  margin-bottom: 5px;
+}
+
+.edu-place {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.edu-desc {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+/* CONTACT */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, textarea {
+  padding: 12px;
+  background: #111;
+  border: none;
+  color: white;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+/* SOCIAL BUTTONS */
+.social-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #111;
+  border: 1px solid #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.social-btn i {
+  pointer-events: none;
+}
+
+.social-btn:hover {
+  transform: scale(1.1);
+  border-color: #00f5ff;
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.5), 0 0 30px rgba(0, 119, 255, 0.4);
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  nav {
+    padding: 12px 20px;
+    flex-wrap: wrap;
+  }
+  
+  nav .brand {
+    flex: 1;
+    justify-content: space-between;
+  }
+  
+  nav a {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  
+  .nav-profile {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .hero h2 {
+    font-size: 28px;
+  }
+  
+  .typing {
+    font-size: 16px;
+  }
+  
+  .hero p {
+    font-size: 14px !important;
+    padding: 0 15px;
+  }
+  
+  .profile-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+  
+  section {
+    padding: 50px 5%;
+  }
+  
+  .section-title {
+    font-size: 26px;
+  }
+  
+  .skills-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+  
+  .skill {
+    padding: 15px;
+    font-size: 14px;
+  }
+  
+  .projects-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .project {
+    padding: 15px;
+  }
+  
+  .project h3 {
+    font-size: 20px;
+  }
+  
+  .project img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .edu-card {
+    padding: 15px;
+  }
+  
+  .social-buttons {
+    justify-content: center;
+  }
+  
+  form {
+    width: 100%;
+  }
+  
+  input, textarea {
+    width: 100%;
+  }
+  
+  /* Hamburger Menu Styles */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: auto;
+  }
+  
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #00f5ff;
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+  
+  nav .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 0;
+    width: 100%;
+    border-top: 1px solid rgba(0,245,255,0.2);
+    margin-top: 10px;
+    order: 3;
+  }
+  
+  nav .nav-links.active {
+    display: flex;
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  nav .nav-links a {
+    padding: 12px 10px;
+    text-align: center;
+    border-radius: 5px;
+  }
+  
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Desktop: Navbar layout */
+@media (min-width: 769px) {
+  nav {
+    flex-direction: row;
+    gap: 0;
+  }
+  
+  nav .brand {
+    width: auto;
+  }
+  
+  .hamburger {
+    display: none !important;
+  }
+  
+  nav .nav-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: auto;
+  }
+  
+  nav .nav-links a {
+    padding: 8px 15px;
+    text-align: center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="brand">
+    <img src="profile.jpeg" class="nav-profile">
+    <h3>Shehzad Adnan</h3>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+<div class="nav-links" id="navLinks">
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#skills" onclick="toggleMenu()">Skills</a>
+    <a href="#education" onclick="toggleMenu()">Education</a>
+    <a href="#projects" onclick="toggleMenu()">Projects</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="profile-wrapper">
+    <img src="profile.jpeg" alt="Profile Image">
+  </div>
+
+  <h2>Shehzad Adnan</h2>
+  <div class="typing" id="typing"></div>
+  
+  <p style="margin-top: 15px; color: #aaa; font-size: 16px; max-width: 600px; line-height: 1.6;">
+    I'm a Software Engineer who loves building impactful solutions, learning new technologies and writing clean & efficient code.
+  </p>
+
+<button class="btn" onclick="document.getElementById('projects').scrollIntoView()">
+    View Projects
+  </button>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="section-title">About Me</h2>
+  <p style="line-height:1.6; color:#ccc;">
+I'm a passionate Software Engineer who enjoys turning ideas into real, working solutions. 
+I focus on building modern, responsive web applications and solving real-world problems through clean and efficient code. 
+I'm always learning, improving my skills and exploring new technologies to grow as a developer.
+  </p>
+</section>
+
+<!-- DESIGNING AND DEVELOPING -->
+<section id="designing-developing">
+  <h2 class="section-title">Designing & Developing</h2>
+  <p style="line-height:1.6; color:#ccc;">
+I love creating user-friendly interfaces and building systems that are both functional and reliable. 
+From designing layouts to writing backend logic, I enjoy working on every part of the development process. 
+My goal is to build applications that are not only visually appealing but also fast, scalable and easy to use.
+  </p>
+</section>
+
+<!-- SKILLS & TOOLS -->
+<section id="skills">
+  <h2 class="section-title">Skills & Tools</h2>
+  <div class="skills-container">
+    <div class="skill">HTML</div>
+    <div class="skill">CSS</div>
+    <div class="skill">C</div>
+    <div class="skill">Java(OOP)</div>
+    <div class="skill">JavaScript (Basic)</div>
+    <div class="skill">Python (Basic)</div>
+    <div class="skill">React</div>
+    <div class="skill">Git</div>
+    <div class="skill">VS Code</div>
+    <div class="skill">Figma</div>
+    <div class="skill">Canva</div>
+    <div class="skill">MS Excel</div>
+    <div class="skill">MS Word</div>
+    <div class="skill">MS PowerPoint</div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <h2 class="section-title">My Education</h2>
+
+  <div class="education-container">
+
+<div class="edu-card">
+      <h3>Matriculation (2020 - 2021)</h3>
+      <p class="edu-place">Govt.City High School, Dera Ghazi Khan</p>
+      <p class="edu-desc">
+During my matriculation, I was a high-performing student who actively supported classmates and assisted teachers with technical and computer-related tasks. 
+This experience strengthened my leadership skills and sparked my interest in technology.
+      </p>
+    </div>
+
+    <div class="edu-card">
+      <h3>Intermediate(ICS) (2021 - 2022)</h3>
+      <p class="edu-place">Govt.Graduate College, Dera Ghazi Khan</p>
+      <p class="edu-desc">
+During my intermediate studies, I was a focused and high-performing student who developed a strong interest in computer science and programming. 
+This phase played an important role in shaping my passion for coding and pursuing a career in software development.
+      </p>
+    </div>
+
+    <div class="edu-card">
+      <h3>Graduation (2024 - Present)</h3>
+      <p class="edu-place">NFC-IET,Multan</p>
+      <p class="edu-desc">
+Currently pursuing Software Engineering , I am developing strong technical skills, working on real-world projects and continuously exploring modern technologies to grow as a developer and designer.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <h2 class="section-title">My Projects</h2>
+  <div class="projects-container">
+    <div class="project">
+      <h3>Sales Data Dashboard</h3>
+      <img src="sales-dashboard project 1.jpg" alt="Sales Data Dashboard" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+<p>
+Created a professional Excel dashboard to transform raw sales data into meaningful insights, enabling efficient performance tracking and data-driven decision-making using Microsoft Excel.
+</p>
+      <a href="https://github.com/Shehzad987/Sales-Data-Dashboard" target="_blank" class="btn">View Project</a>
+    </div>
+    <div class="project">
+      <h3>Password Security and Authentication System</h3>
+      <img src="Password Security and Authentication System project 2.jpg" alt="Password Security and Authentication System" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <p>
+Developed a secure authentication system with password validation, encryption and user verification to protect user data and prevent unauthorized access. Built using Python, JavaScript, HTML and CSS.
+</p>
+      <a href="https://github.com/Shehzad987/Password-Security-Authentication" target="_blank" class="btn">View Project</a>
+    </div>
+    <div class="project">
+      <h3>Attendance Management System</h3>
+      <img src="attendance sheet project 3.jpg" alt="Attendance Management System" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <p>
+Developed a structured attendance management system to efficiently record, track and analyze student attendance using organized data and automated calculations in Microsoft Excel.
+</p>
+      <a href="https://github.com/Shehzad987/Attendance-Sheet-of-Students" target="_blank" class="btn">View Project</a>
+    </div>
+     <div class="project">
+      <h3>School Website</h3>
+      <img src="school website project 4 image.jpg" alt="School Website" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <p>
+Developed a fully responsive school website for The Flower's School to showcase academic programs, admissions, faculty, student highlights and contact information. Designed a premium glassmorphism user interface using HTML5 and CSS3 with smooth animations, gradients and interactive components. Implemented mobile-friendly layouts with Flexbox and CSS Grid to ensure seamless performance across all devices. Created realistic human-written content and integrated custom branding using navy blue, pink and red color themes to reflect the school's identity..
+</p>
+      <a href="https://github.com/Shehzad987/School-Website" target="_blank" class="btn">View Project</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="section-title">Get in Touch</h2>
+  <form>
+    <input placeholder="Name">
+    <input placeholder="Email">
+    <textarea placeholder="Message"></textarea>
+    <button class="btn">Send</button>
+  </form>
+
+  <div class="social-buttons" style="justify-content: center; margin-top: 30px;">
+<a href="mailto:shehzadadnan007@gmail.com" class="social-btn" title="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+    <a href="https://github.com/Shehzad987" target="_blank" class="social-btn" title="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/shehzad-adnan-2220b32bb/" target="_blank" class="social-btn" title="LinkedIn">
+      <i class="fab fa-linkedin"></i>
+    </a>
+  </div>
+</section>
+
+<footer> © 2026 Shehzad Adnan,All Rights Reserved</footer>
+
+<script>
+// Connecting Lines Particle Effect
+const canvas = document.createElement('canvas');
+canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
+document.body.insertBefore(canvas, document.body.firstChild);
+const ctx = canvas.getContext('2d');
+
+let width, height, particles = [];
+const particleCount = 80;
+const maxDistance = 150;
+
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+}
+
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      size: Math.random() * 2 + 1
+    });
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, width, height);
+  
+  // Draw particles
+  particles.forEach((p, i) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    
+    if (p.x < 0 || p.x > width) p.vx *= -1;
+    if (p.y < 0 || p.y > height) p.vy *= -1;
+    
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 245, 255, 0.6)';
+    ctx.fill();
+    
+    // Draw connecting lines
+    for (let j = i + 1; j < particles.length; j++) {
+      const p2 = particles[j];
+      const dx = p.x - p2.x;
+      const dy = p.y - p2.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist < maxDistance) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.strokeStyle = `rgba(0, 245, 255, ${0.15 * (1 - dist / maxDistance)})`;
+        ctx.stroke();
+      }
+    }
+  });
+  
+  requestAnimationFrame(draw);
+}
+
+resize();
+initParticles();
+draw();
+window.addEventListener('resize', () => { resize(); initParticles(); });
+
+// Typing Animation
+const text = ["Software Engineer", "Web Developer", "Problem Solver"];
+let i = 0, j = 0, current = "", isDeleting = false;
+
+function type() {
+  current = text[i];
+
+  if (isDeleting) j--;
+  else j++;
+
+  document.getElementById("typing").textContent = current.substring(0, j);
+
+  if (!isDeleting && j === current.length) {
+    isDeleting = true;
+    setTimeout(type, 1000);
+    return;
+  }
+
+  if (isDeleting && j === 0) {
+    isDeleting = false;
+    i = (i + 1) % text.length;
+  }
+
+  setTimeout(type, isDeleting ? 50 : 100);
+}
+
+type();
+// Hamburger Menu Toggle
+function toggleMenu() {
+  const navLinks = document.getElementById("navLinks");
+  navLinks.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
