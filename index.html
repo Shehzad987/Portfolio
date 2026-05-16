@@ -278,9 +278,61 @@ footer {
   color: #777;
 }
 
+/* CUSTOM 3D CURSOR */
+:root{
+  --cursor-cyan:#00f5ff;
+  --cursor-blue:#0077ff;
+}
+
+#cursor3d{
+  position:fixed;
+  left:0; top:0;
+  width: 10px; height: 10px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:999999;
+
+ background: #006E8F;      /* Center Dot */
+border: 2px solid #0088CC; /* Outer Ring */
+box-shadow: 0 0 15px rgba(0, 196, 204, 0.35);
+
+  transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  opacity:0.95;
+  transition: width 140ms ease, height 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+  backdrop-filter: blur(2px);
+}
+
+#cursor3d::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 60% 55%,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(127,252,255,0.9) 18%,
+      rgba(0,245,255,0.4) 38%,
+      rgba(0,245,255,0) 70%);
+  opacity:0.95;
+}
+
+.cursor-hover #cursor3d{
+  width:23px; height:23px;
+  opacity:1;
+  box-shadow:
+    0 0 14px rgba(0,245,255,0.75),
+    0 0 30px rgba(0,119,255,0.45),
+    0 0 60px rgba(0,119,255,0.25);
+}
+
+@media (hover: none), (pointer: coarse){
+  #cursor3d{ display:none; }
+}
+
 /* SOCIAL BUTTONS */
 .social-buttons {
   display: flex;
+
   gap: 15px;
   margin-top: 20px;
 }
@@ -483,6 +535,10 @@ footer {
 
 <body>
 
+<!-- Custom 3D Cursor -->
+<div id="cursor3d" aria-hidden="true"></div>
+
+
 <!-- NAVBAR -->
 <nav>
   <div class="brand">
@@ -516,7 +572,7 @@ footer {
     I'm a Software Engineer who loves building impactful solutions, learning new technologies and writing clean & efficient code.
   </p>
 
- <div class="hero-actions">
+  <div class="hero-actions">
     <button class="btn" onclick="document.getElementById('projects').scrollIntoView()">
       View Projects
     </button>
@@ -638,6 +694,7 @@ Developed a fully responsive school website for The Flower's School to showcase 
 </p>
       <a href="https://github.com/Shehzad987/School-Website" target="_blank" class="btn">View Project</a>
     </div>
+    
   </div>
 </section>
 
@@ -768,6 +825,120 @@ function toggleMenu() {
   const navLinks = document.getElementById("navLinks");
   navLinks.classList.toggle("active");
 }
+
+// Custom 3D Cursor (glowing cyan-blue)
+(function(){
+  const cursor = document.getElementById('cursor3d');
+  if(!cursor) return;
+
+  // Hide native cursor
+  document.documentElement.style.cursor = 'none';
+
+  let targetX = window.innerWidth / 2;
+  let targetY = window.innerHeight / 2;
+  let currentX = targetX;
+  let currentY = targetY;
+
+  const hoverSelector = [
+    'a',
+    'button',
+    '.btn',
+    '.project',
+    '.skill',
+    '.edu-card',
+    '.social-btn'
+  ].join(',');
+
+  function lerp(a,b,t){ return a + (b-a)*t; }
+
+  function animate(){
+    currentX = lerp(currentX, targetX, 0.16);
+    currentY = lerp(currentY, targetY, 0.16);
+
+    const dx = targetX - currentX;
+    const dy = targetY - currentY;
+
+    const rot = Math.max(-18, Math.min(18, dy * 0.02));
+    const rot2 = Math.max(-18, Math.min(18, -dx * 0.02));
+
+    cursor.style.left = currentX + 'px';
+    cursor.style.top = currentY + 'px';
+cursor.style.transform = `translate3d(-50%, -50%, 0) rotateX(${rot}deg) rotateY(${rot2}deg)`;
+
+    // particle trail (lightweight)
+    // create small fading dots behind the cursor
+    for(let k=0;k<2;k++){
+      const dot = document.createElement('div');
+      dot.style.cssText = `position:fixed;left:${currentX}px;top:${currentY}px;width:4px;height:4px;border-radius:50%;
+        background: rgba(0,245,255,0.85);
+        box-shadow: 0 0 10px rgba(0,245,255,0.6), 0 0 18px rgba(0,119,255,0.35);
+        transform: translate(-50%,-50%);
+        pointer-events:none;z-index:999998;`;
+      document.body.appendChild(dot);
+      const driftX = (Math.random()-0.5)*18;
+      const driftY = (Math.random()-0.5)*18;
+      const drift = `translate(${driftX}px, ${driftY}px) scale(${0.8+Math.random()*0.6})`;
+      dot.animate([
+        {opacity:0.9, transform:'translate(-50%,-50%) scale(1)'},
+        {opacity:0.0, transform:`translate(-50%,-50%) ${drift}`}
+      ], {duration:450+Math.random()*250, easing:'ease-out', fill:'forwards'});
+      setTimeout(()=>dot.remove(), 800);
+    }
+
+
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+  }, { passive: true });
+
+document.addEventListener('mouseover', (e) => {
+    const el = e.target.closest(hoverSelector);
+    if(el){
+      document.body.classList.add('cursor-hover');
+
+      // magnetic pull toward hovered element center
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width/2;
+      const cy = r.top + r.height/2;
+      targetX = lerp(targetX, cx, 0.35);
+      targetY = lerp(targetY, cy, 0.35);
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    const related = e.relatedTarget;
+    const leaving = e.target.closest(hoverSelector);
+    if(leaving){
+      const stillHovering = related && related.closest ? related.closest(hoverSelector) : false;
+      if(!stillHovering) document.body.classList.remove('cursor-hover');
+    }
+  });
+
+  document.addEventListener('click', () => {
+    // click pulse animation
+    const pulse = document.createElement('div');
+    pulse.style.cssText = `position:fixed;left:${currentX}px;top:${currentY}px;width:10px;height:10px;border-radius:50%;
+      background: rgba(0,245,255,0.35);
+      box-shadow: 0 0 22px rgba(0,245,255,0.55), 0 0 45px rgba(0,119,255,0.25);
+      transform: translate(-50%,-50%);
+      pointer-events:none;z-index:999998;`;
+    document.body.appendChild(pulse);
+    pulse.animate([
+      {opacity:1, transform:'translate(-50%,-50%) scale(0.9)'},
+      {opacity:0.0, transform:'translate(-50%,-50%) scale(3.2)'}
+    ], {duration:520, easing:'ease-out', fill:'forwards'});
+    setTimeout(()=>pulse.remove(), 650);
+  });
+
+
+  // Start centered if mouse hasn't moved yet
+  cursor.style.left = currentX + 'px';
+  cursor.style.top = currentY + 'px';
+  animate();
+})();
 </script>
 
 </body>
