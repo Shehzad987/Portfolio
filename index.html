@@ -5,621 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shehzad Adnan-Portfolio</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="icon" href="Navbar logo.jpg" type="image/x-icon">
+<link rel="icon" href="images/Navbar logo.jpg" type="image/x-icon">
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-body {
-  background: linear-gradient(135deg, #050508 0%, #0a0a14 40%, #0f0f1a 70%, #050508 100%);
-  color: white;
-}
-/* =========================
-   NAVBAR
-========================= */
-
-nav {
-    position: fixed;
-    width: 100%;
-    top: 0;
-
-    background: linear-gradient(
-        90deg,
-        rgba(0, 245, 255, 0.08) 0%,
-        rgba(0, 119, 255, 0.05) 50%,
-        rgba(0, 245, 255, 0.08) 100%
-    );
-
-    backdrop-filter: blur(15px);
-
-    /* 3-column layout:
-       Left   = Brand
-       Center = Navigation
-       Right  = Hire Me
-    */
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-
-    padding: 15px 50px;
-
-    border-bottom: 1px solid rgba(0, 245, 255, 0.2);
-
-    z-index: 1000;
-}
-
-
-/* =========================
-   BRAND
-========================= */
-
-nav .brand {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    justify-self: start;
-}
-
-nav .brand h3 {
-    color: #00f5ff;
-    font-size: 20px;
-}
-
-
-/* =========================
-   NAVIGATION LINKS
-========================= */
-
-nav .nav-links {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    justify-self: center;
-}
-
-nav a {
-    padding: 8px 15px;
-    text-decoration: none;
-    color: white;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-
-
-/* Normal navigation hover */
-
-nav a:hover {
-    background: linear-gradient(
-        45deg,
-        #00f5ff,
-        #0077ff
-    );
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-
-/* =========================
-   PROFILE IMAGE
-========================= */
-
-.nav-profile {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: 50% 20%;
-
-    border: 2px solid #00f5ff;
-
-    box-shadow: 0 0 10px #00f5ff;
-}
-
-
-/* =========================
-   HIRE ME BUTTON
-========================= */
-
-nav .hire-btn {
-    justify-self: end;
-
-    display: inline-block;
-
-    padding: 10px 20px;
-    margin-left: 10px;
-
-    border: 1px solid #00e5ff;
-    border-radius: 8px;
-
-    color: #00e5ff !important;
-    -webkit-text-fill-color: #00e5ff !important;
-
-    text-decoration: none;
-    font-weight: 600;
-
-    transition: all 0.3s ease;
-}
-
-
-/* Hire Me hover */
-
-nav a.hire-btn:hover {
-    background: #00e5ff;
-
-    color: #061018 !important;
-    -webkit-text-fill-color: #061018 !important;
-
-    background-clip: border-box;
-    -webkit-background-clip: border-box;
-
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
-
-    transform: translateY(-2px);
-}
-/* HERO */
-.hero {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(180deg, rgba(5,5,8,0.75) 0%, rgba(10,10,20,0.65) 50%, rgba(5,5,8,0.75) 100%);
-  text-align: center;
-}
-
-.profile-wrapper {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  margin-bottom: 10px;
-}
-
-.profile-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #00f5ff, #0077ff, #00f5ff);
-  animation: rotate 4s linear infinite;
-  z-index: 0;
-}
-
-.profile-wrapper img {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-@keyframes rotate {
-  100% { transform: rotate(360deg); }
-}
-
-.hero h2 {
-  font-size: 48px;
-  color: #00f5ff;
-}
-
-.typing {
-  margin-top: 10px;
-  font-size: 20px;
-  color: #aaa;
-  border-right: 2px solid #00f5ff;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-/* BUTTON */
-.hero-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 30px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 12px 25px;
-  background: #00f5ff;
-  border: none;
-  color: black;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-}
-
-
-.btn:hover {
-  transform: scale(1.1);
-  background: linear-gradient(45deg, #00f5ff, #0077ff);
-  box-shadow: 0 0 20px rgba(0, 245, 255, 0.6);
-}
-
-/* SECTIONS */
-section {
-  padding: 80px 10%;
-}
-
-.section-title {
-  color: #00f5ff;
-  font-size: 32px;
-  margin-bottom: 20px;
-}
-
-/* SKILLS */
-.skills-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
-}
-
-.skill {
-  padding: 20px;
-  background: #111;
-  border-radius: 10px;
-  border: 1px solid #222;
-  transition: 0.3s;
-}
-
-.skill:hover {
-  border-color: #00f5ff;
-  box-shadow: 0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 119, 255, 0.3);
-}
-
-/* PROJECTS */
-.projects-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.project {
-  padding: 20px;
-  background: #111;
-  border-radius: 10px;
-  border: 1px solid #222;
-  transition: 0.3s;
-}
-
-.project:hover {
-  transform: translateY(-5px);
-  border-color: #00f5ff;
-  box-shadow: 0 0 20px rgba(0, 245, 255, 0.4), 0 0 40px rgba(0, 119, 255, 0.3);
-}
-
-.project h3 {
-  color: #00f5ff;
-  margin-bottom: 10px;
-}
-
-.project p {
-  color: #ccc;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-/* EDUCATION */
-.education-container {
-  display: grid;
-  gap: 20px;
-}
-
-.edu-card {
-  background: #111;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #222;
-  transition: 0.3s;
-}
-
-.edu-card:hover {
-  transform: translateY(-5px);
-  border-color: #00f5ff;
-  box-shadow: 0 0 20px rgba(0, 245, 255, 0.4), 0 0 40px rgba(0, 119, 255, 0.3);
-}
-
-.edu-card h3 {
-  color: #00f5ff;
-  margin-bottom: 5px;
-}
-
-.edu-place {
-  font-size: 14px;
-  color: #aaa;
-  margin-bottom: 10px;
-}
-
-.edu-desc {
-  color: #ccc;
-  line-height: 1.6;
-}
-
-/* CONTACT */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-input, textarea {
-  padding: 12px;
-  background: #111;
-  border: none;
-  color: white;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #777;
-}
-
-/* CUSTOM 3D CURSOR */
-:root{
-  --cursor-cyan:#00f5ff;
-  --cursor-blue:#0077ff;
-}
-
-#cursor3d{
-  position:fixed;
-  left:0; top:0;
-  width: 10px; height: 10px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:999999;
-
- background: #006E8F;      
-border: 2px solid #0088CC;
-box-shadow: 0 0 15px rgba(0, 196, 204, 0.35);
-
-  transform: translate3d(-50%, -50%, 0) rotate(0deg);
-  opacity:0.95;
-  transition: width 140ms ease, height 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
-  backdrop-filter: blur(2px);
-}
-
-#cursor3d::after{
-  content:"";
-  position:absolute;
-  inset:-6px;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 60% 55%,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(127,252,255,0.9) 18%,
-      rgba(0,245,255,0.4) 38%,
-      rgba(0,245,255,0) 70%);
-  opacity:0.95;
-}
-
-.cursor-hover #cursor3d{
-  width:23px; height:23px;
-  opacity:1;
-  box-shadow:
-    0 0 14px rgba(0,245,255,0.75),
-    0 0 30px rgba(0,119,255,0.45),
-    0 0 60px rgba(0,119,255,0.25);
-}
-
-@media (hover: none), (pointer: coarse){
-  #cursor3d{ display:none; }
-}
-
-/* SOCIAL BUTTONS */
-.social-buttons {
-  display: flex;
-
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.social-btn {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: #111;
-  border: 1px solid #222;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 20px;
-  text-decoration: none;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.social-btn i {
-  pointer-events: none;
-}
-
-.social-btn:hover {
-  transform: scale(1.1);
-  border-color: #00f5ff;
-  box-shadow: 0 0 15px rgba(0, 245, 255, 0.5), 0 0 30px rgba(0, 119, 255, 0.4);
-}
-
-/* MOBILE RESPONSIVENESS */
-@media (max-width: 768px) {
-  nav {
-    padding: 12px 20px;
-    flex-wrap: wrap;
-  }
-  
-  nav .brand {
-    flex: 1;
-    justify-content: space-between;
-  }
-  
-  nav a {
-    margin-left: 10px;
-    font-size: 14px;
-  }
-  
-  .nav-profile {
-    width: 35px;
-    height: 35px;
-  }
-  
-  .hero h2 {
-    font-size: 28px;
-  }
-  
-  .typing {
-    font-size: 16px;
-  }
-  
-  .hero p {
-    font-size: 14px !important;
-    padding: 0 15px;
-  }
-  
-  .profile-wrapper {
-    width: 140px;
-    height: 140px;
-  }
-  
-  section {
-    padding: 50px 5%;
-  }
-  
-  .section-title {
-    font-size: 26px;
-  }
-  
-  .skills-container {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  }
-  
-  .skill {
-    padding: 15px;
-    font-size: 14px;
-  }
-  
-  .projects-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .project {
-    padding: 15px;
-  }
-  
-  .project h3 {
-    font-size: 20px;
-  }
-  
-  .project img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .edu-card {
-    padding: 15px;
-  }
-  
-  .social-buttons {
-    justify-content: center;
-  }
-  
-  form {
-    width: 100%;
-  }
-  
-  input, textarea {
-    width: 100%;
-  }
-  
-  /* Hamburger Menu Styles */
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
-    padding: 5px;
-    margin-left: auto;
-  }
-  
-  .hamburger span {
-    width: 25px;
-    height: 3px;
-    background: #00f5ff;
-    border-radius: 2px;
-    transition: 0.3s;
-  }
-  
-  nav .nav-links {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    padding: 10px 0;
-    width: 100%;
-    border-top: 1px solid rgba(0,245,255,0.2);
-    margin-top: 10px;
-    order: 3;
-  }
-  
-  nav .nav-links.active {
-    display: flex;
-    animation: slideDown 0.3s ease-out;
-  }
-  
-  nav .nav-links a {
-    padding: 12px 10px;
-    text-align: center;
-    border-radius: 5px;
-  }
-  
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-}
-
-/* Desktop: Navbar layout */
-@media (min-width: 769px) {
-  nav {
-    flex-direction: row;
-    gap: 0;
-  }
-  
-  nav .brand {
-    width: auto;
-  }
-  
-  .hamburger {
-    display: none !important;
-  }
-  
-  nav .nav-links {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border: none;
-    padding: 0;
-    margin: 0;
-    width: auto;
-  }
-  
-  nav .nav-links a {
-    padding: 8px 15px;
-    text-align: center;
-  }
-}
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -631,32 +19,39 @@ box-shadow: 0 0 15px rgba(0, 196, 204, 0.35);
 <!-- NAVBAR -->
 <nav>
     <div class="brand">
-        <!-- Your existing logo/profile -->
-        <img src="Navbar logo.jpg" class="nav-profile" alt="Shehzad Adnan">
+          <img src="images/Navbar logo.jpg" class="nav-profile" alt="Shehzad Adnan">
         <h3>Shehzad Adnan</h3>
     </div>
 
-    <div class="nav-links">
+  <div id="hamburger" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+    <div id="navLinks" class="nav-links">
+         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
         <a href="#education">Education</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
+        <a href="#contact" class="mobile-hire btn">Hire Me</a>
     </div>
 
     <a href="#contact" class="hire-btn">Hire Me</a>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
+<div id="home" class="hero">
   <div class="profile-wrapper">
-    <img src="profile picture.jpeg" alt="Profile Image">
+    <img src="images/profile picture.jpeg" alt="Profile Image">
   </div>
 
   <h2>Shehzad Adnan</h2>
   <div class="typing" id="typing"></div>
   
-  <p style="margin-top: 15px; color: #aaa; font-size: 16px; max-width: 600px; line-height: 1.6;">
+  <p class="hero-description">
     I'm a Software Engineer who loves building impactful solutions, learning new technologies and writing clean & efficient code.
   </p>
 
@@ -664,7 +59,7 @@ box-shadow: 0 0 15px rgba(0, 196, 204, 0.35);
     <button class="btn" onclick="document.getElementById('projects').scrollIntoView()">
       View Projects
     </button>
-    <a href="Shehzad_Adnan_Resume.pdf" class="btn" download="Shehzad_Adnan_Resume.pdf">
+    <a href="documents/Shehzad_Adnan_Resume.pdf" class="btn" download="Shehzad_Adnan_Resume.pdf">
       Download Resume
     </a>
   </div>
@@ -673,7 +68,7 @@ box-shadow: 0 0 15px rgba(0, 196, 204, 0.35);
 <!-- ABOUT -->
 <section id="about">
   <h2 class="section-title">About Me</h2>
-  <p style="line-height:1.6; color:#ccc;">
+  <p class="section-text">
 I'm a passionate Software Engineer who enjoys turning ideas into real, working solutions. 
 I focus on building modern, responsive web applications and solving real-world problems through clean and efficient code. 
 I'm always learning, improving my skills and exploring new technologies to grow as a developer.
@@ -683,7 +78,7 @@ I'm always learning, improving my skills and exploring new technologies to grow 
 <!-- DESIGNING AND DEVELOPING -->
 <section id="designing-developing">
   <h2 class="section-title">Designing & Developing</h2>
-  <p style="line-height:1.6; color:#ccc;">
+  <p class="section-text">
 I love creating user-friendly interfaces and building systems that are both functional and reliable. 
 From designing layouts to writing backend logic, I enjoy working on every part of the development process. 
 My goal is to build applications that are not only visually appealing but also fast, scalable and easy to use.
@@ -761,7 +156,7 @@ Currently pursuing Software Engineering , I am developing strong technical skill
   
      <div class="project">
       <h3>School Website</h3>
-      <img src="school website project 4 image.jpg" alt="School Website" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/school website project 4 image.jpg" alt="School Website">
       <p>
 Developed a fully responsive school website for The Flower's School to showcase academic programs, admissions, faculty, student highlights and contact information. Designed a premium glassmorphism user interface using HTML5 and CSS3 with smooth animations, gradients and interactive components. Implemented mobile-friendly layouts with Flexbox and CSS Grid to ensure seamless performance across all devices. Created realistic human-written content and integrated custom branding using navy blue, pink and red color themes to reflect the school's identity.
 </p>
@@ -770,7 +165,7 @@ Developed a fully responsive school website for The Flower's School to showcase 
 
  <div class="project">
       <h3>ShopSphere – Full-Stack E-Commerce Platform</h3>
-      <img src="ShopSphere.jpg" alt="ShopSphere – Full-Stack E-Commerce Platform" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/ShopSphere.jpg" alt="ShopSphere – Full-Stack E-Commerce Platform">
       <p>
 Developed ShopSphere, a modern full-stack e-commerce platform that enables customers to discover products, manage carts, and complete purchases through a secure and responsive interface. The application includes role-based authentication, product and order management, inventory administration and a streamlined shopping experience powered by the MERN stack.
 </p>
@@ -779,7 +174,7 @@ Developed ShopSphere, a modern full-stack e-commerce platform that enables custo
 
     <div class="project">
       <h3>Sphere – Mini Social Media Platform</h3>
-      <img src="Sphere.jpg" alt="Sphere – Mini Social Media Platform" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/Sphere.jpg" alt="Sphere – Mini Social Media Platform">
       <p>
 Sphere is a full-stack mini social media platform that allows users to create profiles, share posts, like, comment and interact through a responsive and secure interface. Built using React, Node.js, Express, MongoDB and JWT authentication, it showcases modern full-stack development practices and scalable application architecture.
 </p>
@@ -788,7 +183,7 @@ Sphere is a full-stack mini social media platform that allows users to create pr
 
     <div class="project">
       <h3>TaskFlow – Real-Time Project Management Platform</h3>
-      <img src="TaskFlow.jpg" alt="TaskFlow – Real-Time Project Management Platform" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/TaskFlow.jpg" alt="TaskFlow – Real-Time Project Management Platform">
       <p>
 TaskFlow is a real-time collaborative project management platform built with the MERN Stack and Socket.IO. It enables teams to organize projects using Kanban boards, manage tasks with drag-and-drop functionality, collaborate through comments and file attachments, receive live notifications and synchronize updates instantly across connected users through a secure and responsive interface.
 </p>
@@ -797,7 +192,7 @@ TaskFlow is a real-time collaborative project management platform built with the
 
     <div class="project">
       <h3>RuleBot – Python Rule-Based Chatbot</h3>
-      <img src="RuleBot.jpg" alt="RuleBot – Python Rule-Based Chatbot" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/RuleBot.jpg" alt="RuleBot – Python Rule-Based Chatbot">
       <p>
 RuleBot is a lightweight Python-based rule-driven chatbot that responds to user queries using predefined conversational rules and keyword matching. The project demonstrates core concepts of chatbot development, logical decision-making and conversational flow without using machine learning or AI APIs.
 </p>
@@ -806,7 +201,7 @@ RuleBot is a lightweight Python-based rule-driven chatbot that responds to user 
     
     <div class="project">
       <h3>PredictWell – AI-Powered Employee Burnout Prediction System</h3>
-      <img src="PredictWell.png" alt="PredictWell – AI-Powered Employee Burnout Prediction System" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/PredictWell.png" alt="PredictWell – AI-Powered Employee Burnout Prediction System">
       <p>
 PredictWell is a machine learning-based predictive analytics tool designed to forecast trends and patterns in large datasets. The application leverages advanced algorithms to provide accurate insights and support data-driven decision-making.
 </p>
@@ -815,7 +210,7 @@ PredictWell is a machine learning-based predictive analytics tool designed to fo
 
      <div class="project">
       <h3>Sales Data Dashboard</h3>
-      <img src="sales-dashboard project 1.jpg" alt="Sales Data Dashboard" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/sales-dashboard project 1.jpg" alt="Sales Data Dashboard">
 <p>
 Created a professional Excel dashboard to transform raw sales data into meaningful insights, enabling efficient performance tracking and data-driven decision-making using Microsoft Excel.
 </p>
@@ -824,7 +219,7 @@ Created a professional Excel dashboard to transform raw sales data into meaningf
 
     <div class="project">
       <h3>Password Security and Authentication System</h3>
-      <img src="Password Security and Authentication System project 2.jpg" alt="Password Security and Authentication System" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/Password Security and Authentication System project 2.jpg" alt="Password Security and Authentication System">
       <p>
 Developed a secure authentication system with password validation, encryption and user verification to protect user data and prevent unauthorized access. Built using Python, JavaScript, HTML and CSS.
 </p>
@@ -833,7 +228,7 @@ Developed a secure authentication system with password validation, encryption an
 
     <div class="project">
       <h3>Attendance Management System</h3>
-      <img src="attendance sheet project 3.jpg" alt="Attendance Management System" style="width:100%; height:auto; margin-bottom:10px; border-radius:8px;">
+      <img src="images/attendance sheet project 3.jpg" alt="Attendance Management System">
       <p>
 Developed a structured attendance management system to efficiently record, track and analyze student attendance using organized data and automated calculations in Microsoft Excel.
 </p>
@@ -852,7 +247,7 @@ Developed a structured attendance management system to efficiently record, track
     <button class="btn">Send</button>
   </form>
 
-  <div class="social-buttons" style="justify-content: center; margin-top: 30px;">
+  <div class="social-buttons contact-social">
 <a href="mailto:shehzadadnan007@gmail.com" class="social-btn" title="Email">
       <i class="fas fa-envelope"></i>
     </a>
@@ -867,223 +262,7 @@ Developed a structured attendance management system to efficiently record, track
 
 <footer> © 2026 Shehzad Adnan,All Rights Reserved</footer>
 
-<script>
-// Connecting Lines Particle Effect
-const canvas = document.createElement('canvas');
-canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
-document.body.insertBefore(canvas, document.body.firstChild);
-const ctx = canvas.getContext('2d');
-
-let width, height, particles = [];
-const particleCount = 80;
-const maxDistance = 150;
-
-function resize() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-}
-
-function initParticles() {
-  particles = [];
-  for (let i = 0; i < particleCount; i++) {
-    particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 2 + 1
-    });
-  }
-}
-
-function draw() {
-  ctx.clearRect(0, 0, width, height);
-  
-  // Draw particles
-  particles.forEach((p, i) => {
-    p.x += p.vx;
-    p.y += p.vy;
-    
-    if (p.x < 0 || p.x > width) p.vx *= -1;
-    if (p.y < 0 || p.y > height) p.vy *= -1;
-    
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(0, 245, 255, 0.6)';
-    ctx.fill();
-    
-    // Draw connecting lines
-    for (let j = i + 1; j < particles.length; j++) {
-      const p2 = particles[j];
-      const dx = p.x - p2.x;
-      const dy = p.y - p2.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      
-      if (dist < maxDistance) {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = `rgba(0, 245, 255, ${0.15 * (1 - dist / maxDistance)})`;
-        ctx.stroke();
-      }
-    }
-  });
-  
-  requestAnimationFrame(draw);
-}
-
-resize();
-initParticles();
-draw();
-window.addEventListener('resize', () => { resize(); initParticles(); });
-
-// Typing Animation
-const text = ["Software Engineer", "Full Stack Web Developer", "Problem Solver"];
-let i = 0, j = 0, current = "", isDeleting = false;
-
-function type() {
-  current = text[i];
-
-  if (isDeleting) j--;
-  else j++;
-
-  document.getElementById("typing").textContent = current.substring(0, j);
-
-  if (!isDeleting && j === current.length) {
-    isDeleting = true;
-    setTimeout(type, 1000);
-    return;
-  }
-
-  if (isDeleting && j === 0) {
-    isDeleting = false;
-    i = (i + 1) % text.length;
-  }
-
-  setTimeout(type, isDeleting ? 50 : 100);
-}
-
-type();
-// Hamburger Menu Toggle
-function toggleMenu() {
-  const navLinks = document.getElementById("navLinks");
-  navLinks.classList.toggle("active");
-}
-
-// Custom 3D Cursor (glowing cyan-blue)
-(function(){
-  const cursor = document.getElementById('cursor3d');
-  if(!cursor) return;
-
-  // Hide native cursor
-  document.documentElement.style.cursor = 'none';
-
-  let targetX = window.innerWidth / 2;
-  let targetY = window.innerHeight / 2;
-  let currentX = targetX;
-  let currentY = targetY;
-
-  const hoverSelector = [
-    'a',
-    'button',
-    '.btn',
-    '.project',
-    '.skill',
-    '.edu-card',
-    '.social-btn'
-  ].join(',');
-
-  function lerp(a,b,t){ return a + (b-a)*t; }
-
-  function animate(){
-    currentX = lerp(currentX, targetX, 0.16);
-    currentY = lerp(currentY, targetY, 0.16);
-
-    const dx = targetX - currentX;
-    const dy = targetY - currentY;
-
-    const rot = Math.max(-18, Math.min(18, dy * 0.02));
-    const rot2 = Math.max(-18, Math.min(18, -dx * 0.02));
-
-    cursor.style.left = currentX + 'px';
-    cursor.style.top = currentY + 'px';
-cursor.style.transform = `translate3d(-50%, -50%, 0) rotateX(${rot}deg) rotateY(${rot2}deg)`;
-
-    // particle trail (lightweight)
-    // create small fading dots behind the cursor
-    for(let k=0;k<2;k++){
-      const dot = document.createElement('div');
-      dot.style.cssText = `position:fixed;left:${currentX}px;top:${currentY}px;width:4px;height:4px;border-radius:50%;
-        background: rgba(0,245,255,0.85);
-        box-shadow: 0 0 10px rgba(0,245,255,0.6), 0 0 18px rgba(0,119,255,0.35);
-        transform: translate(-50%,-50%);
-        pointer-events:none;z-index:999998;`;
-      document.body.appendChild(dot);
-      const driftX = (Math.random()-0.5)*18;
-      const driftY = (Math.random()-0.5)*18;
-      const drift = `translate(${driftX}px, ${driftY}px) scale(${0.8+Math.random()*0.6})`;
-      dot.animate([
-        {opacity:0.9, transform:'translate(-50%,-50%) scale(1)'},
-        {opacity:0.0, transform:`translate(-50%,-50%) ${drift}`}
-      ], {duration:450+Math.random()*250, easing:'ease-out', fill:'forwards'});
-      setTimeout(()=>dot.remove(), 800);
-    }
-
-
-    requestAnimationFrame(animate);
-  }
-
-  window.addEventListener('mousemove', (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
-  }, { passive: true });
-
-document.addEventListener('mouseover', (e) => {
-    const el = e.target.closest(hoverSelector);
-    if(el){
-      document.body.classList.add('cursor-hover');
-
-      // magnetic pull toward hovered element center
-      const r = el.getBoundingClientRect();
-      const cx = r.left + r.width/2;
-      const cy = r.top + r.height/2;
-      targetX = lerp(targetX, cx, 0.35);
-      targetY = lerp(targetY, cy, 0.35);
-    }
-  });
-
-  document.addEventListener('mouseout', (e) => {
-    const related = e.relatedTarget;
-    const leaving = e.target.closest(hoverSelector);
-    if(leaving){
-      const stillHovering = related && related.closest ? related.closest(hoverSelector) : false;
-      if(!stillHovering) document.body.classList.remove('cursor-hover');
-    }
-  });
-
-  document.addEventListener('click', () => {
-    // click pulse animation
-    const pulse = document.createElement('div');
-    pulse.style.cssText = `position:fixed;left:${currentX}px;top:${currentY}px;width:10px;height:10px;border-radius:50%;
-      background: rgba(0,245,255,0.35);
-      box-shadow: 0 0 22px rgba(0,245,255,0.55), 0 0 45px rgba(0,119,255,0.25);
-      transform: translate(-50%,-50%);
-      pointer-events:none;z-index:999998;`;
-    document.body.appendChild(pulse);
-    pulse.animate([
-      {opacity:1, transform:'translate(-50%,-50%) scale(0.9)'},
-      {opacity:0.0, transform:'translate(-50%,-50%) scale(3.2)'}
-    ], {duration:520, easing:'ease-out', fill:'forwards'});
-    setTimeout(()=>pulse.remove(), 650);
-  });
-
-
-  // Start centered if mouse hasn't moved yet
-  cursor.style.left = currentX + 'px';
-  cursor.style.top = currentY + 'px';
-  animate();
-})();
-</script>
+<script src="js/script.js" defer></script>
 
 </body>
 </html>
