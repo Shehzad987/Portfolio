@@ -1,8 +1,3 @@
-/* ============================================================
-   SHEHZAD ADNAN - PORTFOLIO STYLESHEET
-   ============================================================ */
-
-/* ---------- RESET & GLOBAL ---------- */
 * {
   margin: 0;
   padding: 0;
@@ -75,17 +70,41 @@ nav .nav-links {
 }
 
 nav .nav-links a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   text-decoration: none;
   padding: 8px 15px;
   font-size: 16px;
-  border-radius: 5px;
-  transition: 0.3s;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
-nav .nav-links a:hover {
+nav .nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #00f5ff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+nav .nav-links a:hover::after,
+nav .nav-links a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+nav .nav-links a:hover,
+nav .nav-links a:focus-visible {
   color: #00f5ff;
-  background: rgba(0, 245, 255, 0.1);
+  transform: translateY(-1px);
 }
 
 .hire-btn {
@@ -109,7 +128,7 @@ nav .nav-links a:hover {
  /* mobile-only hire button shown inside the menu panel */
 .mobile-hire { display: none; }
 
-/* ---------- HAMBURGER MENU ---------- */
+/*HAMBURGER MENU*/
 .hamburger {
   display: none;
   flex-direction: column;
@@ -138,10 +157,18 @@ nav .nav-links a:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------- HERO ---------- */
+/*HERO*/
 .hero {
   text-align: center;
-  padding: 60px 10%;
+  margin: -80px 0 0 0;
+  padding: calc(80px + 40px) 10% 140px;
+  background: rgba(4, 6, 10, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  border-radius: 0 0 32px 32px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
 .profile-wrapper {
@@ -183,7 +210,6 @@ nav .nav-links a:hover {
   margin-top: 10px;
   font-size: 20px;
   color: #aaa;
-  border-right: 2px solid #00f5ff;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -226,9 +252,13 @@ nav .nav-links a:hover {
   box-shadow: 0 0 20px rgba(0, 245, 255, 0.6);
 }
 
-/* ---------- SECTIONS ---------- */
+/*SECTIONS*/
 section {
-  padding: 80px 10%;
+  padding: 50px 10%;
+}
+
+.hero + section {
+  padding-top: 50px;
 }
 
 .section-title {
@@ -237,7 +267,7 @@ section {
   margin-bottom: 20px;
 }
 
-/* ---------- SKILLS ---------- */
+/*SKILLS*/
 .skills-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -257,7 +287,7 @@ section {
   box-shadow: 0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 119, 255, 0.3);
 }
 
-/* ---------- PROJECTS ---------- */
+/* PROJECTS */
 .projects-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -301,7 +331,7 @@ section {
   line-height: 1.6;
 }
 
-/* ---------- EDUCATION ---------- */
+/*EDUCATION*/
 .education-container {
   display: grid;
   gap: 20px;
@@ -337,7 +367,7 @@ section {
   line-height: 1.6;
 }
 
-/* ---------- CONTACT FORM ---------- */
+/*CONTACT FORM*/
 form {
   display: flex;
   flex-direction: column;
@@ -359,14 +389,14 @@ input:focus, textarea:focus {
   box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
 }
 
-/* ---------- FOOTER ---------- */
+/*FOOTER*/
 footer {
   text-align: center;
   padding: 20px;
   color: #777;
 }
 
-/* ---------- CUSTOM 3D CURSOR ---------- */
+/*CUSTOM 3D CURSOR*/
 :root {
   --cursor-cyan: #00f5ff;
   --cursor-blue: #0077ff;
@@ -420,7 +450,7 @@ footer {
   #cursor3d { display: none; }
 }
 
-/* ---------- SOCIAL BUTTONS ---------- */
+/*SOCIAL BUTTONS*/
 .social-buttons {
   display: flex;
   gap: 15px;
@@ -458,7 +488,7 @@ footer {
   box-shadow: 0 0 15px rgba(0, 245, 255, 0.5), 0 0 30px rgba(0, 119, 255, 0.4);
 }
 
-/* ---------- MOBILE RESPONSIVENESS ---------- */
+/*MOBILE RESPONSIVENESS*/
 @media (max-width: 768px) {
   /* reduce top padding on smaller screens */
   body { padding-top: 70px; }
@@ -479,8 +509,8 @@ footer {
   }
 
   nav .brand {
-    flex: 1;
-    justify-content: space-between;
+    flex: 0 1 auto;
+    justify-content: flex-start;
   }
 
   nav .nav-links {
@@ -621,7 +651,7 @@ footer {
   }
 }
 
-/* ---------- DESKTOP NAVBAR LAYOUT ---------- */
+/*DESKTOP NAVBAR LAYOUT*/
 @media (min-width: 769px) {
   /* ensure the duplicated mobile hire link remains hidden */
   nav .nav-links .mobile-hire { display: none !important; }
