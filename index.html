@@ -19,64 +19,151 @@ body {
   background: linear-gradient(135deg, #050508 0%, #0a0a14 40%, #0f0f1a 70%, #050508 100%);
   color: white;
 }
+/* =========================
+   NAVBAR
+========================= */
 
-/* NAVBAR */
 nav {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  background: linear-gradient(90deg, rgba(0,245,255,0.08) 0%, rgba(0,119,255,0.05) 50%, rgba(0,245,255,0.08) 100%);
-  backdrop-filter: blur(15px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 50px;
-  border-bottom: 1px solid rgba(0,245,255,0.2);
-  z-index: 1000;
+    position: fixed;
+    width: 100%;
+    top: 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(0, 245, 255, 0.08) 0%,
+        rgba(0, 119, 255, 0.05) 50%,
+        rgba(0, 245, 255, 0.08) 100%
+    );
+
+    backdrop-filter: blur(15px);
+
+    /* 3-column layout:
+       Left   = Brand
+       Center = Navigation
+       Right  = Hire Me
+    */
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
+    padding: 15px 50px;
+
+    border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+
+    z-index: 1000;
 }
 
+
+/* =========================
+   BRAND
+========================= */
+
 nav .brand {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-self: start;
 }
 
 nav .brand h3 {
-  color: #00f5ff;
-  font-size: 20px;
+    color: #00f5ff;
+    font-size: 20px;
 }
 
+
+/* =========================
+   NAVIGATION LINKS
+========================= */
+
 nav .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    justify-self: center;
 }
 
 nav a {
-  padding: 8px 15px;
-  text-decoration: none;
-  color: white;
-  border-radius: 5px;
-  transition: 0.3s;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: 0.3s;
 }
+
+
+/* Normal navigation hover */
 
 nav a:hover {
-  background: linear-gradient(45deg, #00f5ff, #0077ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+    background: linear-gradient(
+        45deg,
+        #00f5ff,
+        #0077ff
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
+
+
+/* =========================
+   PROFILE IMAGE
+========================= */
 
 .nav-profile {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: 50% 20%;
-  border: 2px solid #00f5ff;
-  box-shadow: 0 0 10px #00f5ff;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 20%;
+
+    border: 2px solid #00f5ff;
+
+    box-shadow: 0 0 10px #00f5ff;
 }
 
+
+/* =========================
+   HIRE ME BUTTON
+========================= */
+
+nav .hire-btn {
+    justify-self: end;
+
+    display: inline-block;
+
+    padding: 10px 20px;
+    margin-left: 10px;
+
+    border: 1px solid #00e5ff;
+    border-radius: 8px;
+
+    color: #00e5ff !important;
+    -webkit-text-fill-color: #00e5ff !important;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Hire Me hover */
+
+nav a.hire-btn:hover {
+    background: #00e5ff;
+
+    color: #061018 !important;
+    -webkit-text-fill-color: #061018 !important;
+
+    background-clip: border-box;
+    -webkit-background-clip: border-box;
+
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+
+    transform: translateY(-2px);
+}
 /* HERO */
 .hero {
   height: 100vh;
@@ -543,22 +630,21 @@ box-shadow: 0 0 15px rgba(0, 196, 204, 0.35);
 
 <!-- NAVBAR -->
 <nav>
-  <div class="brand">
-    <img src="Navbar logo.jpg" class="nav-profile">
-    <h3>Shehzad Adnan</h3>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="brand">
+        <!-- Your existing logo/profile -->
+        <img src="Navbar logo.jpg" class="nav-profile" alt="Shehzad Adnan">
+        <h3>Shehzad Adnan</h3>
     </div>
-  </div>
-<div class="nav-links" id="navLinks">
-    <a href="#about" onclick="toggleMenu()">About</a>
-    <a href="#skills" onclick="toggleMenu()">Skills</a>
-    <a href="#education" onclick="toggleMenu()">Education</a>
-    <a href="#projects" onclick="toggleMenu()">Projects</a>
-    <a href="#contact" onclick="toggleMenu()">Contact</a>
-  </div>
+
+    <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <a href="#contact" class="hire-btn">Hire Me</a>
 </nav>
 
 <!-- HERO -->
