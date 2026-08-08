@@ -94,6 +94,37 @@ function type() {
 }
 
 type();
+
+window.customCursorEnabled = false;
+function enableCursor() {
+  window.customCursorEnabled = true;
+  document.body.classList.add('loaded');
+  document.documentElement.style.cursor = 'none';
+}
+
+function handleLoader() {
+  const overlay = document.getElementById('loaderOverlay');
+  if (!overlay) return;
+
+  const hideOverlay = () => {
+    document.body.classList.remove('loading');
+    overlay.classList.add('hidden');
+    setTimeout(() => {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      enableCursor();
+    }, 600);
+  };
+
+  const delay = 1600;
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(hideOverlay, delay));
+  } else {
+    setTimeout(hideOverlay, delay);
+  }
+}
+
+handleLoader();
+
 // Hamburger Menu Toggle
 function toggleMenu() {
   const navLinks = document.getElementById("navLinks");
@@ -116,14 +147,12 @@ function toggleMenu() {
 (function(){
   const cursor = document.getElementById('cursor3d');
   if(!cursor) return;
-
-  // Hide native cursor
-  document.documentElement.style.cursor = 'none';
-
+  
   let targetX = window.innerWidth / 2;
   let targetY = window.innerHeight / 2;
   let currentX = targetX;
   let currentY = targetY;
+  let cursorEnabled = false;
 
   const hoverSelector = [
     'a',
@@ -138,6 +167,11 @@ function toggleMenu() {
   function lerp(a,b,t){ return a + (b-a)*t; }
 
   function animate(){
+    if (!window.customCursorEnabled) {
+      requestAnimationFrame(animate);
+      return;
+    }
+
     currentX = lerp(currentX, targetX, 0.16);
     currentY = lerp(currentY, targetY, 0.16);
 
