@@ -564,7 +564,9 @@ nav .nav-links a:focus-visible {
 
 /* RIGHT SIDE - CONSOLE */
 
+
 .hero-console {
+
     width: 100%;
 
     max-width: 430px;
@@ -576,17 +578,21 @@ nav .nav-links a:focus-visible {
     gap: 20px;
 
     justify-self: center;
+
+    position: relative;
+    left: 110px;
+    top: 75px;
 }
 
 
 /* CONSOLE CARD */
 
 .console-card {
-    width: 100%;
+    width: 80%;
 
     box-sizing: border-box;
 
-    padding: 24px;
+    padding: 18px 20px ;
 
     background: rgba(5, 15, 24, 0.78);
 
