@@ -68,7 +68,7 @@ draw();
 window.addEventListener('resize', () => { resize(); initParticles(); });
 
 // Typing Animation
-const text = ["Software Engineer", "Full Stack Web Developer", "Problem Solver"];
+const text = ["Software Engineer.", "Full Stack Web Developer.", "Problem Solver."];
 let i = 0, j = 0, current = "", isDeleting = false;
 
 function type() {
