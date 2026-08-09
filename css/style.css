@@ -923,115 +923,82 @@ nav .nav-links a:focus-visible {
         margin-right: auto;
     }
 
-    /* Console */
+   @media (max-width: 768px) {
+
     .hero-console {
-        width: 100%;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
+        position: static !important;
+
+        width: 100% !important;
+        max-width: 500px !important;
+
+        margin: 40px auto 0 !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+
         gap: 16px;
+
+        transform: none !important;
+
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+
+        justify-self: center !important;
+        align-self: center !important;
+
+        grid-column: auto !important;
     }
 
-    .console-card {
-        width: 100%;
-        padding: 20px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: left;
+    .hero-console .console-card {
+        position: static !important;
+
+        width: 100% !important;
+        max-width: 500px !important;
+
+        margin: 0 auto !important;
+
+        transform: none !important;
+
+        left: auto !important;
+        right: auto !important;
+
+        box-sizing: border-box;
     }
 }
 
-/* SMALL PHONES */
-
-@media (max-width: 480px) {
-
-    .hero {
-        width: 100%;
-        box-sizing: border-box;
-
-        padding: 95px 15px 50px;
-
-        gap: 35px;
-
-        text-align: center;
-    }
-
-    .profile-wrapper {
-        width: 140px;
-        height: 140px;
-        margin: 0 auto 20px;
-    }
-
-    .hero h2 {
-        font-size: 30px;
-        text-align: center;
-    }
-
-    .typing {
-        font-size: 16px;
-        text-align: center;
-    }
-
-    .hero-description {
-        font-size: 14px;
-        text-align: center;
-        max-width: 350px;
-    }
-
-    .hero-tech-row {
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .hero-actions {
-        justify-content: center;
-        gap: 14px;
-    }
-
-    .hero-stats {
-        width: 100%;
-        max-width: 350px;
-        gap: 10px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .stat-card {
-        width: 100%;
-        text-align: center;
-    }
-
-    .hero-status {
-        justify-content: center;
-        text-align: center;
-    }
+@media (max-width: 768px) {
 
     .hero-console {
-        width: 100%;
-        max-width: 350px;
-        margin-left: auto;
-        margin-right: auto;
+        text-align: left !important;
     }
 
-    .console-card {
-        width: 100%;
-        padding: 17px;
+    .hero-console .console-card {
+        text-align: left !important;
+    }
+
+    .console-header {
+        justify-content: flex-start;
         text-align: left;
     }
 
     .console-code {
-        font-size: 11px;
+        text-align: left;
     }
 
-    .console-card h3 {
-        font-size: 17px;
+    .focus-status {
+        justify-content: flex-start;
+        text-align: left;
     }
 
+    .console-card h3,
     .console-card p {
-        font-size: 12px;
+        text-align: left;
     }
 }
-
+  }
 
 /*BUTTONS*/
 .btn {
