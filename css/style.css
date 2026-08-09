@@ -62,31 +62,15 @@ body.loaded * {
 }
 
 .loader-logo {
-  width: 108px;
-  height: 108px;
+  width: 180px;
+  height: 180px;
   margin: 0 auto 22px;
   display: block;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
   animation: logoPop 1.6s ease-in-out infinite alternate;
   filter: drop-shadow(0 0 22px rgba(0, 245, 255, 0.28));
-}
 
-.loader-text h1 {
-  font-size: 1.65rem;
-  letter-spacing: 0.08em;
-  color: #ffffff;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.loader-text p {
-  margin: 0 auto 22px;
-  color: #66f0ff;
-  font-size: 0.95rem;
-  letter-spacing: 0.22em;
-  opacity: 0.96;
-  text-transform: uppercase;
 }
 
 .loader-track {
