@@ -1054,24 +1054,31 @@ section {
 }
 
 .more-projects {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .more-projects-section {
-  padding: 0 0 8px;
-  border: none;
-  border-radius: 0;
-  background: transparent;
+    padding: 0 0 8px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
 }
 
 .more-projects-heading {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .subsection-title {
-  color: #00f5ff;
-  font-size: 24px;
-  margin-bottom: 6px;
+    color: #00f5ff;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.more-projects-heading p {
+    margin: -2px 0 18px;
+    color: #9cb4c5;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .project {
@@ -1562,9 +1569,7 @@ body.loading #cursor3d {
     padding: 8px 15px;
     text-align: center;
   }
-   /*=========================================================
-   FIXED COMBINED HERO STATS
-========================================================= */
+   /*HERO STATS*/
 
 .hero-stats {
     width: 100%;
