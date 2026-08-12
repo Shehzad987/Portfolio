@@ -44,6 +44,7 @@
         <a href="#skills">Skills</a>
         <a href="#education">Education</a>
         <a href="#projects">Projects</a>
+        <a href="#certifications">Cert</a>
         <a href="#contact">Contact</a>
         <a href="#contact" class="mobile-hire btn">Hire Me</a>
     </div>
@@ -469,6 +470,309 @@ Currently pursuing Software Engineering , I am developing strong technical skill
   </div>
 </section>
 
+<!--CERTIFICATIONS-->
+
+<section id="certifications" class="certifications-section">
+
+  <div class="certifications-heading">
+    <span class="section-label">CREDENTIALS</span>
+    <h2>My Certifications</h2>
+    <p>Professional credentials & continuous learning</p>
+  </div>
+
+
+  <div class="certificates-list">
+
+    <!-- 01 — WALMART -->
+    <div class="certificate-card">
+
+      <div class="certificate-accent walmart"></div>
+
+      <div class="certificate-logo">
+        <span>W</span>
+      </div>
+
+      <div class="certificate-info">
+        <h3>Advanced Software Engineering Job Simulation</h3>
+        <span>WALMART USA · FORAGE</span>
+      </div>
+
+      <div class="certificate-meta">
+        <strong>2026</strong>
+
+        <button
+          type="button"
+          class="certificate-view-btn"
+          data-certificate="walmart"
+          onclick="openCertificate('walmart')"
+        >
+          VIEW →
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- 02 — WELLS FARGO -->
+    <div class="certificate-card">
+
+      <div class="certificate-accent wells-fargo"></div>
+
+      <div class="certificate-logo">
+        <span>WF</span>
+      </div>
+
+      <div class="certificate-info">
+        <h3>Software Engineering Job Simulation</h3>
+        <span>WELLS FARGO · FORAGE</span>
+      </div>
+
+      <div class="certificate-meta">
+        <strong>2026</strong>
+
+        <button
+          type="button"
+          class="certificate-view-btn"
+          data-certificate="wells-fargo"
+          onclick="openCertificate('wells-fargo')"
+        >
+          VIEW →
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- 03 — DELOITTE TECHNOLOGY -->
+    <div class="certificate-card">
+
+      <div class="certificate-accent deloitte"></div>
+
+      <div class="certificate-logo">
+        <span>D</span>
+      </div>
+
+      <div class="certificate-info">
+        <h3>Technology Job Simulation</h3>
+        <span>DELOITTE · FORAGE</span>
+      </div>
+
+      <div class="certificate-meta">
+        <strong>2026</strong>
+
+        <button
+          type="button"
+          class="certificate-view-btn"
+          data-certificate="deloitte-technology"
+          onclick="openCertificate('deloitte-technology')"
+        >
+          VIEW →
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- 04 — DELOITTE DATA ANALYST -->
+    <div class="certificate-card">
+
+      <div class="certificate-accent deloitte"></div>
+
+      <div class="certificate-logo">
+        <span>D</span>
+      </div>
+
+      <div class="certificate-info">
+        <h3>Data Analyst Job Simulation</h3>
+        <span>DELOITTE · FORAGE</span>
+      </div>
+
+      <div class="certificate-meta">
+        <strong>2026</strong>
+
+        <button
+          type="button"
+          class="certificate-view-btn"
+          data-certificate="deloitte-data"
+          onclick="openCertificate('deloitte-data')"
+        >
+          VIEW →
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- 05 — DELOITTE CYBER SECURITY -->
+    <div class="certificate-card">
+
+      <div class="certificate-accent deloitte"></div>
+
+      <div class="certificate-logo">
+        <span>D</span>
+      </div>
+
+      <div class="certificate-info">
+        <h3>Cyber Security Job Simulation</h3>
+        <span>DELOITTE · FORAGE</span>
+      </div>
+
+      <div class="certificate-meta">
+        <strong>2026</strong>
+
+        <button
+          type="button"
+          class="certificate-view-btn"
+          data-certificate="deloitte-cyber"
+          onclick="openCertificate('deloitte-cyber')"
+        >
+          VIEW →
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- 06 — TEVTA -->
+    <div class="certificate-card">
+
+      <div class="certificate-accent tevta"></div>
+
+      <div class="certificate-logo">
+        <span>CCA</span>
+      </div>
+
+      <div class="certificate-info">
+        <h3>Certificate in Computer Applications (CCA)</h3>
+        <span>TEVTA</span>
+      </div>
+
+      <div class="certificate-meta">
+        <strong>2022</strong>
+
+        <button
+          type="button"
+          class="certificate-view-btn"
+          data-certificate="tevta"
+          onclick="openCertificate('tevta')"
+        >
+          VIEW →
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</div>
+
+</section>
+
+
+<!--CERTIFICATE MODAL-->
+
+<div
+  class="certificate-modal"
+  id="certificateModal"
+  aria-hidden="true"
+>
+
+  <!-- Dark background -->
+  <div
+    class="certificate-modal-overlay"
+    onclick="closeCertificate()"
+  ></div>
+
+
+  <!-- Modal Card -->
+  <div class="certificate-modal-card">
+
+    <!-- Close Button -->
+    <button
+    type="button"
+    class="certificate-close"
+    aria-label="Close certificate"
+    onclick="
+        document.getElementById('certificateModal').classList.remove('active');
+        document.getElementById('certificateModal').setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    "
+>
+    ×
+</button>
+
+
+    <!-- Certificate Image -->
+    <div class="certificate-preview">
+
+      <img
+        id="certificatePreviewImage"
+        src=""
+        alt="Certificate"
+      >
+
+    </div>
+
+
+    <!-- Certificate Details -->
+    <div class="certificate-details">
+
+      <span class="certificate-details-label">
+        CREDENTIAL
+      </span>
+
+
+      <h2 id="certificateTitle"></h2>
+
+
+      <div class="certificate-issuer">
+
+        <span id="certificateIssuer"></span>
+
+        <span>•</span>
+
+        <span id="certificateYear"></span>
+
+      </div>
+
+
+      <div class="certificate-line"></div>
+
+
+      <p id="certificateDescription"></p>
+
+
+      <h4>SKILLS COVERED</h4>
+
+
+      <div
+        class="certificate-skills"
+        id="certificateSkills"
+      ></div>
+
+
+      <!-- Buttons -->
+
+      <a
+          href="#"
+          id="certificateLink"
+          class="certificate-link"
+          target="_blank"
+          rel="noopener"
+        >
+          VIEW CERTIFICATE ↗
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 <!-- CONTACT -->
 <section id="contact">
   <h2 class="section-title">Get in Touch</h2>
@@ -492,7 +796,7 @@ Currently pursuing Software Engineering , I am developing strong technical skill
   </div>
 </section>
 
-<footer> © 2026 Shehzad Adnan,All Rights Reserved</footer>
+<footer> © 2026 Shehzad Adnan, All Rights Reserved</footer>
 
 <script src="js/script.js" defer></script>
 

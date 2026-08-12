@@ -1,3 +1,5 @@
+console.log("SCRIPT.JS IS LOADED");
+
 // Connecting Lines Particle Effect
 const canvas = document.createElement('canvas');
 canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
@@ -252,3 +254,204 @@ function toggleMenu() {
   cursor.style.top = currentY + 'px';
   animate();
 })();
+/* =========================================================
+   CERTIFICATE DATA
+========================================================= */
+
+const certificateData = {
+
+    walmart: {
+        title: "Advanced Software Engineering Job Simulation",
+        issuer: "WALMART USA · FORAGE",
+        year: "2026",
+        description:
+            "Successfully completed Walmart's Advanced Software Engineering Virtual Experience Program through Forage. Worked on practical software engineering tasks involving Java, data structures, UML design and database modeling.",
+        skills: [
+            "Java",
+            "Data Structures",
+            "UML",
+            "Database Modeling",
+            "Software Engineering"
+        ],
+          image: "images/Advance Software Engineering.png",
+        link: "documents/Walmart Advance Software Engineering Job Simulation.pdf"
+    },
+
+    "wells-fargo": {
+        title: "Software Engineering Job Simulation",
+        issuer: "WELLS FARGO · FORAGE",
+        year: "2026",
+        description:
+            "Designed a financial portfolio management system by gathering requirements, modeling data through an Entity Relationship Diagram (ERD), and implementing the system using IntelliJ.",
+        skills: [
+            "Java",
+            "ERD",
+            "Database Design",
+            "IntelliJ",
+            "Software Engineering"
+        ],
+        image: "images/Software Engineering.png",
+        link: "documents/Software Engineering Job Certificate.pdf"
+    },
+
+    "deloitte-technology": {
+        title: "Technology Job Simulation",
+        issuer: "DELOITTE · FORAGE",
+        year: "2026",
+        description:
+            "Completed a virtual job simulation focused on technology development and coding practices within a consulting context. Drafted a professional proposal for the design and implementation of a data dashboard.",
+        skills: [
+            "Technology Development",
+            "Coding",
+            "Data Dashboards",
+            "Technical Proposal",
+            "Consulting"
+        ],
+        image: "images/Technology.png",
+        link: "documents/Deloitte Technology job simulation certificate.pdf"
+    },
+
+    "deloitte-data": {
+        title: "Data Analyst Job Simulation",
+        issuer: "DELOITTE · FORAGE",
+        year: "2026",
+        description:
+            "Analyzed industrial telemetry data to identify operational inefficiencies across multiple factory locations. Structured nested JSON datasets and created interactive dashboards in Tableau Public.",
+        skills: [
+            "Data Analysis",
+            "JSON",
+            "Tableau",
+            "Data Visualization",
+            "Dashboard Development"
+        ],
+        image: "images/Data Analyst.png",
+        link: "documents/Deloitte Data Analyst certificate.pdf"
+    },
+
+    "deloitte-cyber": {
+        title: "Cyber Security Job Simulation",
+        issuer: "DELOITTE · FORAGE",
+        year: "2026",
+        description:
+            "Gained practical experience in cybersecurity investigations, log analysis, threat detection and incident response through real-world simulation exercises.",
+        skills: [
+            "Cybersecurity",
+            "Log Analysis",
+            "Threat Detection",
+            "Incident Response"
+        ],
+        image: "images/Cybersecurity.png",
+        link: "documents/Deloitte cyber security job completion_certificate.pdf"
+    },
+
+    tevta: {
+        title: "Certificate in Computer Applications (CCA)",
+        issuer: "TEVTA",
+        year: "—",
+        description:
+            "Demonstrated foundational proficiency in computer applications including MS Office, basic IT concepts and digital productivity tools.",
+        skills: [
+            "MS Office",
+            "Computer Applications",
+            "Basic IT",
+            "Digital Productivity"
+        ],
+        image: "images/CCA.png",
+        link: "documents/TEVTA certificate.jpg"
+    }
+
+};
+
+
+/* =========================================================
+   OPEN CERTIFICATE
+========================================================= */
+
+function openCertificate(certificateId) {
+
+    const certificate = certificateData[certificateId];
+
+    if (!certificate) {
+        console.error("Certificate not found:", certificateId);
+        return;
+    }
+
+    const modal = document.getElementById("certificateModal");
+    const title = document.getElementById("certificateTitle");
+    const issuer = document.getElementById("certificateIssuer");
+    const year = document.getElementById("certificateYear");
+    const description = document.getElementById("certificateDescription");
+    const image = document.getElementById("certificatePreviewImage");
+    const skills = document.getElementById("certificateSkills");
+    const link = document.getElementById("certificateLink");
+
+    /* Check required elements */
+    if (
+        !modal ||
+        !title ||
+        !issuer ||
+        !year ||
+        !description ||
+        !image ||
+        !skills ||
+        !link
+    ) {
+        console.error("Certificate modal HTML is missing!");
+
+        console.table({
+            certificateModal: !!modal,
+            certificateTitle: !!title,
+            certificateIssuer: !!issuer,
+            certificateYear: !!year,
+            certificateDescription: !!description,
+            certificatePreviewImage: !!image,
+            certificateSkills: !!skills,
+            certificateLink: !!link
+        });
+
+        return;
+    }
+
+    /* Fill certificate information */
+    title.textContent = certificate.title;
+    issuer.textContent = certificate.issuer;
+    year.textContent = certificate.year;
+    description.textContent = certificate.description;
+
+    image.src = certificate.image;
+    image.alt = certificate.title;
+
+    link.href = certificate.link;
+
+    /* Skills */
+    skills.innerHTML = "";
+
+    certificate.skills.forEach(skill => {
+
+        const skillTag = document.createElement("span");
+
+        skillTag.textContent = skill;
+
+        skills.appendChild(skillTag);
+
+    });
+
+    /* Open modal */
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+
+    document.body.classList.add("certificate-modal-open");
+}
+/* =========================================================
+   CLOSE WITH ESC KEY
+========================================================= */
+
+document.addEventListener("keydown", function (event) {
+
+    if (event.key === "Escape") {
+
+        closeCertificate();
+
+    }
+
+});
