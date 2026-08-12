@@ -282,7 +282,7 @@ const certificateData = {
         issuer: "WELLS FARGO · FORAGE",
         year: "2026",
         description:
-            "Designed a financial portfolio management system by gathering requirements, modeling data through an Entity Relationship Diagram (ERD), and implementing the system using IntelliJ.",
+            "Designed a financial portfolio management system by gathering requirements, modeling data through an Entity Relationship Diagram (ERD) and implementing the system using IntelliJ.",
         skills: [
             "Java",
             "ERD",
@@ -347,7 +347,7 @@ const certificateData = {
     tevta: {
         title: "Certificate in Computer Applications (CCA)",
         issuer: "TEVTA",
-        year: "—",
+        year: "2022",
         description:
             "Demonstrated foundational proficiency in computer applications including MS Office, basic IT concepts and digital productivity tools.",
         skills: [
@@ -363,9 +363,7 @@ const certificateData = {
 };
 
 
-/* =========================================================
-   OPEN CERTIFICATE
-========================================================= */
+/* OPEN CERTIFICATE */
 
 function openCertificate(certificateId) {
 
@@ -442,16 +440,3 @@ function openCertificate(certificateId) {
 
     document.body.classList.add("certificate-modal-open");
 }
-/* =========================================================
-   CLOSE WITH ESC KEY
-========================================================= */
-
-document.addEventListener("keydown", function (event) {
-
-    if (event.key === "Escape") {
-
-        closeCertificate();
-
-    }
-
-});
