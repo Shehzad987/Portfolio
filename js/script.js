@@ -325,7 +325,7 @@ const certificateData = {
             "Dashboard Development"
         ],
         image: "images/Data Analyst.png",
-        link: "documents/Deloitte Data Analyst certificate.pdf"
+        link: "documents/Deloitte Data Analytics certificate.pdf"
     },
 
     "deloitte-cyber": {
