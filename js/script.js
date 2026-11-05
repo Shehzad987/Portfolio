@@ -440,3 +440,52 @@ function openCertificate(certificateId) {
 
     document.body.classList.add("certificate-modal-open");
 }
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const sendBtn = document.getElementById("sendBtn");
+    const formStatus = document.getElementById("formStatus");
+
+    const formData = {
+      name: document.getElementById("name").value.trim(),
+      subject: document.getElementById("subject").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      message: document.getElementById("message").value.trim()
+    };
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending...";
+    formStatus.textContent = "";
+
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Something went wrong.");
+      }
+
+      formStatus.textContent = "Message sent successfully!";
+      contactForm.reset();
+
+    } catch (error) {
+      console.error("Contact form error:", error);
+      formStatus.textContent = error instanceof TypeError && error.message === "Failed to fetch"
+        ? "Cannot reach the contact server. Start the backend and open this page from http://localhost or http://127.0.0.1, not directly as a file."
+        : error.message || "Failed to send message.";
+    } finally {
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send";
+    }
+  });
+}

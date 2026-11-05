@@ -55,7 +55,9 @@ A modern, responsive personal portfolio website built using HTML, CSS, and JavaS
 2. Open the folder:
 
 3. Run the project:
-- Open `index.html` in your browser  
+- Start a local web server from the project folder with `python -m http.server 5500`
+- Open `http://127.0.0.1:5500` in your browser
+- For the contact form, also start the backend as described below
 
 ---
 
@@ -66,6 +68,14 @@ You can deploy this portfolio using:
 - GitHub Pages  
 - Netlify  
 - Vercel  
+
+## Contact form backend
+
+The contact form API is in `server/`. Configure `MONGODB_URI`, `DB_NAME`, and
+`FRONTEND_URL` in `server/.env`, then start it from that directory with
+`npm start`. The MongoDB user in `MONGODB_URI` must have the `readWrite` role
+on the database named by `DB_NAME`. Alternatively, set `DB_NAME` to a database
+that user is already authorized to write to.
 
 
 ---
@@ -90,4 +100,3 @@ This project is open-source and available for personal and educational use.
 **Shehzad Adnan**  
 Software Engineer | Web Developer | Problem Solver
 ## 📂 Project Structure
-
