@@ -2,7 +2,9 @@
 (function () {
     "use strict";
 
-    const PRODUCTION_API_URL = "https://my-portfolio-backend-l7d8.onrender.com";
+    const PRODUCTION_API_URL =
+        "https://my-portfolio-backend-l7d8.onrender.com";
+
     const LOCAL_API_URL = "http://localhost:5000";
     const FALLBACK_EMAIL = "shehzadadnan007@gmail.com";
 
@@ -14,15 +16,15 @@
         isLocal ? LOCAL_API_URL : PRODUCTION_API_URL
     }/api/contact`;
 
-    const form = document.getElementById("contact-form");
-    const statusBox = document.getElementById("form-status");
+    const form = document.getElementById("contactForm");
+    const statusBox = document.getElementById("formStatus");
 
     if (!form || !statusBox) {
         console.error("Contact form or status element not found.");
         return;
     }
 
-    const submitButton = form.querySelector('[type="submit"]');
+    const submitButton = document.getElementById("sendBtn");
 
     function showStatus(message, type) {
         statusBox.textContent = message;
@@ -35,6 +37,8 @@
         const data = Object.fromEntries(new FormData(form));
 
         submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+
         showStatus("Sending your message...", "info");
 
         try {
@@ -55,7 +59,7 @@
             }
 
             showStatus(
-                result.message || "Your message has been sent successfully!",
+                result.message || "Message sent successfully!",
                 "success"
             );
 
@@ -66,13 +70,14 @@
 
             showStatus(
                 isLocal
-                    ? `Cannot connect to the local backend. Start it with npm run dev.`
-                    : `Sorry, your message could not be sent. Please email ${FALLBACK_EMAIL}.`,
+                    ? "Cannot connect to your local backend. Start it using npm run dev."
+                    : `Unable to send your message. Please email ${FALLBACK_EMAIL}.`,
                 "error"
             );
 
         } finally {
             submitButton.disabled = false;
+            submitButton.textContent = "Send";
         }
     });
 })();
