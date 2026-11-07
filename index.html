@@ -886,70 +886,45 @@ Currently pursuing Software Engineering , I am developing strong technical skill
 </div>
 
 <!-- CONTACT -->
-<section id="contact">
-  <h2 class="section-title">Get in Touch</h2>
-
-  <form id="contactForm">
+<form id="contact-form">
     <input
-      type="text"
-      name="name"
-      id="name"
-      placeholder="Name"
-      required
-      maxlength="100"
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        required
     >
 
     <input
-      type="text"
-      name="subject"
-      id="subject"
-      placeholder="Subject"
-      required
-      maxlength="150"
+        type="text"
+        name="subject"
+        placeholder="Subject"
+        required
     >
 
     <input
-      type="email"
-      name="email"
-      id="email"
-      placeholder="Email"
-      required
-      maxlength="254"
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        required
     >
 
     <textarea
-      name="message"
-      id="message"
-      placeholder="Message"
-      required
-      maxlength="5000"
+        name="message"
+        placeholder="Your Message"
+        required
     ></textarea>
 
-    <button type="submit" class="btn" id="sendBtn">
-      Send
+    <button type="submit" class="btn">
+        Send Message
     </button>
+</form>
 
-    <p id="formStatus" role="status" aria-live="polite"></p>
-  </form>
-
-  <div class="social-buttons contact-social">
-    <a href="mailto:shehzadadnan007@gmail.com" class="social-btn" title="Email">
-      <i class="fas fa-envelope"></i>
-    </a>
-
-    <a href="https://github.com/Shehzad987" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub">
-      <i class="fab fa-github"></i>
-    </a>
-
-    <a href="https://www.linkedin.com/in/shehzad-adnan/" target="_blank" rel="noopener noreferrer" class="social-btn" title="LinkedIn">
-      <i class="fab fa-linkedin"></i>
-    </a>
-  </div>
-</section>
+<p id="form-status" class="form-status" role="status" aria-live="polite"></p>
 
 <footer> © 2026 Shehzad Adnan, All Rights Reserved</footer>
 
-<script src="js/script.js" defer></script>
+<script src="js/script.js"></script>
+<script src="js/contact-form.js"></script>
 
 </body>
 </html>
