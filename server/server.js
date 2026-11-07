@@ -349,10 +349,10 @@ async function startServer() {
 
     await verifyDatabaseAccess();
 
-    app.listen(PORT, () => {
-        console.log(`Server running at http://localhost:${PORT}`);
-        console.log("Waiting for contact form submissions...");
-    });
+    app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log("Waiting for contact form submissions...");
+});
 }
 
 // Only start the server when this file is run directly (so it can also be tested)
