@@ -5,30 +5,23 @@
  * POST /api/contact   saves a message to MongoDB and sends an email notification
  * GET  /api/health    shows whether the database is connected
  *
+ * Email provider: Resend API
  * Run locally: npm run dev
  */
+
 require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const Message = require("./models/Message");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
-
-// Gmail transporter
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
 
 // Render runs behind a proxy.
 if (IS_PRODUCTION) {
@@ -246,7 +239,7 @@ app.get("/api/health", (req, res) => {
 });
 
 /* =========================================================
-   CONTACT FORM + EMAIL NOTIFICATION
+   CONTACT FORM + RESEND EMAIL NOTIFICATION
 ========================================================= */
 
 app.post("/api/contact", contactLimiter, async (req, res) => {
@@ -316,28 +309,37 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
             `${mongoose.connection.name} > Messages`
         );
 
-        // 6. Send Gmail notification.
-        // Email failure will not delete or lose the saved MongoDB message.
-        console.log("========== EMAIL CONFIG CHECK ==========");
-        console.log("EMAIL_USER exists:", Boolean(process.env.EMAIL_USER));
-        console.log("EMAIL_PASS exists:", Boolean(process.env.EMAIL_PASS));
-        console.log("NOTIFICATION_EMAIL exists:", Boolean(process.env.NOTIFICATION_EMAIL));
-        console.log("========================================");
+        // 6. Send email notification using Resend.
+        // Email failure will not delete the message saved in MongoDB.
         try {
-            if (
-                !process.env.EMAIL_USER ||
-                !process.env.EMAIL_PASS ||
-                !process.env.NOTIFICATION_EMAIL
-            ) {
+            console.log("========== RESEND CONFIG CHECK ==========");
+            console.log(
+                "RESEND_API_KEY exists:",
+                Boolean(process.env.RESEND_API_KEY)
+            );
+            console.log(
+                "NOTIFICATION_EMAIL exists:",
+                Boolean(process.env.NOTIFICATION_EMAIL)
+            );
+            console.log("=========================================");
+
+            if (!process.env.RESEND_API_KEY) {
                 throw new Error(
-                    "Email settings are missing. Configure EMAIL_USER, " +
-                    "EMAIL_PASS, and NOTIFICATION_EMAIL."
+                    "RESEND_API_KEY is missing from environment variables."
                 );
             }
 
-            await transporter.sendMail({
-                from: process.env.EMAIL_USER,
-                to: process.env.NOTIFICATION_EMAIL,
+            if (!process.env.NOTIFICATION_EMAIL) {
+                throw new Error(
+                    "NOTIFICATION_EMAIL is missing from environment variables."
+                );
+            }
+
+            const resend = new Resend(process.env.RESEND_API_KEY);
+
+            const { data, error } = await resend.emails.send({
+                from: "Portfolio Contact <onboarding@resend.dev>",
+                to: [process.env.NOTIFICATION_EMAIL],
                 replyTo: cleanData.email,
                 subject: `New Portfolio Contact: ${cleanData.subject}`,
 
@@ -353,11 +355,16 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
                 ].join("\n")
             });
 
+            if (error) {
+                throw new Error(error.message || "Resend email failed.");
+            }
+
             console.log("✅ Email notification sent successfully!");
+            console.log("Resend email ID:", data.id);
 
         } catch (emailError) {
             console.error(
-                "❌ Email notification failed:",
+                "❌ Resend email notification failed:",
                 emailError.message
             );
         }
