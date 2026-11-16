@@ -66,14 +66,12 @@
             form.reset();
 
         } catch (error) {
-            console.error("Contact form error:", error);
+    console.error("Contact form error:", error);
 
-            showStatus(
-                isLocal
-                    ? "Cannot connect to your local backend. Start it using npm run dev."
-                    : `Unable to send your message. Please email ${FALLBACK_EMAIL}.`,
-                "error"
-            );
+    showStatus(
+        `Error: ${error.message}`,
+        "error"
+    );
 
         } finally {
             submitButton.disabled = false;

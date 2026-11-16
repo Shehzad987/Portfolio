@@ -1,10 +1,11 @@
+
 /**
  * Portfolio backend — contact form API
  *
- * POST /api/contact   saves a message to MongoDB
+ * POST /api/contact   saves a message to MongoDB and sends an email notification
  * GET  /api/health    shows whether the database is connected
  *
- * Run locally:  npm run dev      (reads settings from .env)
+ * Run locally: npm run dev
  */
 require("dotenv").config();
 
@@ -12,6 +13,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const nodemailer = require("nodemailer");
 
 const Message = require("./models/Message");
 
@@ -19,75 +21,95 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
-// Hosts like Render sit behind a proxy. Trusting it lets the rate limiter see each
-// visitor's real IP instead of treating every visitor as the same person.
-if (IS_PRODUCTION) app.set("trust proxy", 1);
+// Gmail transporter
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 
-/* ==========================================================================
-   Database helpers
-   ========================================================================== */
+// Render runs behind a proxy.
+if (IS_PRODUCTION) {
+    app.set("trust proxy", 1);
+}
 
-// MongoDB does not allow these characters in a database name: / \ . " $ and the SPACE.
-const INVALID_DB_NAME_CHARS = /[\/\\. "$]/;
+/* =========================================================
+   DATABASE HELPERS
+========================================================= */
+
+// MongoDB database names cannot contain these characters.
+const INVALID_DB_NAME_CHARS = /[\/\\."$\x00]/;
 
 function validateDatabaseName(name) {
     if (!name) return { valid: true };
 
     if (name.length > 63) {
-        return { valid: false, reason: "is longer than 63 characters" };
+        return {
+            valid: false,
+            reason: "is longer than 63 characters"
+        };
     }
 
     const match = name.match(INVALID_DB_NAME_CHARS);
+
     if (match) {
-        const found = match[0] === " " ? "a space" : `the character ${match[0]}`;
-        return { valid: false, reason: `contains ${found}` };
+        return {
+            valid: false,
+            reason: `contains the character ${match[0]}`
+        };
     }
 
     return { valid: true };
 }
 
-/**
- * Turns a raw database error into a status code plus a plain-English explanation
- * of what to fix. This is what replaces the vague "Something went wrong".
- */
 function describeDatabaseError(error) {
     const name = error && error.name;
     const code = error && error.code;
-    const text = String((error && error.message) || "");
+    const errorText = String((error && error.message) || "");
 
     if (name === "ValidationError" && error.errors) {
         return {
             status: 400,
-            hint: Object.values(error.errors).map((e) => e.message).join(" ")
+            hint: Object.values(error.errors)
+                .map((e) => e.message)
+                .join(" ")
         };
     }
 
-    if (code === 13 || (error && error.codeName === "Unauthorized") || /not authorized/i.test(text)) {
+    if (
+        code === 13 ||
+        (error && error.codeName === "Unauthorized") ||
+        /not authorized/i.test(errorText)
+    ) {
         return {
             status: 503,
             hint:
-                "The database user is not allowed to write to this database. In MongoDB Atlas open " +
-                "Database Access, edit your user, and give it the 'Read and write to any database' " +
-                "role (or readWrite on your database)."
+                "The database user is not allowed to write to this database. " +
+                "Open MongoDB Atlas Database Access and give your user readWrite permission."
         };
     }
 
-    if (code === 73 || (error && error.codeName === "InvalidNamespace") || /invalid (database name|namespace)/i.test(text)) {
+    if (
+        code === 73 ||
+        (error && error.codeName === "InvalidNamespace") ||
+        /invalid (database name|namespace)/i.test(errorText)
+    ) {
         return {
             status: 500,
             hint:
-                `MongoDB rejected the database name "${mongoose.connection.name}". Database names cannot ` +
-                'contain spaces or any of / \\ . " $ — change DB_NAME in your .env file ' +
-                "(for example DB_NAME=MyPortfolio) and restart the server."
+                `MongoDB rejected the database name "${mongoose.connection.name}". ` +
+                'Check DB_NAME in your .env file. Avoid / \\ . " $ and null characters.'
         };
     }
 
-    if (code === 18 || /bad auth|authentication failed/i.test(text)) {
+    if (code === 18 || /bad auth|authentication failed/i.test(errorText)) {
         return {
             status: 503,
             hint:
-                "MongoDB rejected the username or password in MONGODB_URI. If the password contains " +
-                "special characters (@ : / ? # %) it must be URL-encoded."
+                "MongoDB rejected the username or password in MONGODB_URI. " +
+                "Special characters in the password may need URL encoding."
         };
     }
 
@@ -95,20 +117,22 @@ function describeDatabaseError(error) {
         name === "MongoServerSelectionError" ||
         name === "MongoNetworkError" ||
         name === "MongoNotConnectedError" ||
-        /ECONNREFUSED|ENOTFOUND|ETIMEDOUT|buffering timed out|timed out/i.test(text)
+        /ECONNREFUSED|ENOTFOUND|ETIMEDOUT|buffering timed out|timed out/i.test(errorText)
     ) {
         return {
             status: 503,
             hint:
-                "Cannot reach MongoDB. In Atlas open Network Access and make sure your current IP " +
-                "address (or 0.0.0.0/0 while testing) is allowed, then check your internet connection."
+                "Cannot reach MongoDB. Check your Atlas Network Access settings " +
+                "and your internet connection."
         };
     }
 
-    return { status: 500, hint: null };
+    return {
+        status: 500,
+        hint: null
+    };
 }
 
-// What visitors see when the site is live. Technical details stay in the server log.
 const PUBLIC_MESSAGES = {
     400: "Please check your details and try again.",
     500: "Something went wrong. Please try again.",
@@ -120,18 +144,23 @@ function fatal(message) {
     process.exit(1);
 }
 
-/* ==========================================================================
-   Middleware
-   ========================================================================== */
+/* =========================================================
+   MIDDLEWARE
+========================================================= */
 
-// Log every request first, so you can tell whether a submission reached the server at all.
+// Log incoming requests.
 app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} (origin: ${req.headers.origin || "none"})`);
+    console.log(
+        `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} ` +
+        `(origin: ${req.headers.origin || "none"})`
+    );
+
     next();
 });
 
-// Allowed frontends. FRONTEND_URL can hold several addresses separated by commas.
-const normalizeOrigin = (value) => String(value).trim().replace(/\/+$/, "");
+// Allowed frontend origins.
+const normalizeOrigin = (value) =>
+    String(value).trim().replace(/\/+$/, "");
 
 const allowedOrigins = new Set([
     "http://127.0.0.1:5500",
@@ -142,36 +171,47 @@ const allowedOrigins = new Set([
         .filter(Boolean)
 ]);
 
-const LOCAL_ORIGIN = /^https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/;
+const LOCAL_ORIGIN =
+    /^https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/;
 
 app.use(cors({
     origin(origin, callback) {
-        // No Origin header = Postman, curl, or a same-site request
-        if (!origin) return callback(null, true);
+        // Allow requests without an Origin header (e.g. Postman).
+        if (!origin) {
+            return callback(null, true);
+        }
 
         const requested = normalizeOrigin(origin);
-        const isLocalDevelopment = !IS_PRODUCTION && LOCAL_ORIGIN.test(requested);
+
+        const isLocalDevelopment =
+            !IS_PRODUCTION && LOCAL_ORIGIN.test(requested);
 
         if (allowedOrigins.has(requested) || isLocalDevelopment) {
             return callback(null, true);
         }
 
         console.error(`CORS blocked origin: ${origin}`);
+
         if (origin === "null") {
-            console.error('  -> The page was opened straight from a file (file://). Open it with VS Code "Live Server" instead.');
+            console.error(
+                'Open your website using VS Code "Live Server", not file://.'
+            );
         } else {
-            console.error(`  -> To allow it, add ${requested} to FRONTEND_URL in your .env file.`);
+            console.error(
+                `Add ${requested} to FRONTEND_URL in your .env file.`
+            );
         }
 
         const error = new Error("Not allowed by CORS");
         error.status = 403;
+
         return callback(error);
     }
 }));
 
 app.use(express.json({ limit: "10kb" }));
 
-// Contact form rate limiter (relaxed while developing so testing is not painful)
+// Contact form rate limiter.
 const contactLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: IS_PRODUCTION ? 5 : 50,
@@ -183,32 +223,44 @@ const contactLimiter = rateLimit({
     }
 });
 
-/* ==========================================================================
-   Routes
-   ========================================================================== */
+/* =========================================================
+   ROUTES
+========================================================= */
 
+// Backend home route.
 app.get("/", (req, res) => {
     res.status(200).send("Portfolio backend is running!");
 });
 
+// Database health-check route.
 app.get("/api/health", (req, res) => {
     const connected = mongoose.connection.readyState === 1;
+
     res.status(connected ? 200 : 503).json({
         success: connected,
         server: "running",
-        database: connected ? `connected (${mongoose.connection.name})` : "not connected"
+        database: connected
+            ? `connected (${mongoose.connection.name})`
+            : "not connected"
     });
 });
+
+/* =========================================================
+   CONTACT FORM + EMAIL NOTIFICATION
+========================================================= */
 
 app.post("/api/contact", contactLimiter, async (req, res) => {
     const { name, subject, email, message } = req.body || {};
 
-    // 1. Required fields
+    // 1. Check required fields.
     if (!name || !subject || !email || !message) {
-        return res.status(400).json({ success: false, message: "Please fill in all fields." });
+        return res.status(400).json({
+            success: false,
+            message: "Please fill in all fields."
+        });
     }
 
-    // 2. Clean the submitted data
+    // 2. Clean submitted data.
     const cleanData = {
         name: String(name).trim(),
         subject: String(subject).trim(),
@@ -216,26 +268,40 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
         message: String(message).trim()
     };
 
-    if (!cleanData.name || !cleanData.subject || !cleanData.email || !cleanData.message) {
-        return res.status(400).json({ success: false, message: "All fields are required." });
+    if (
+        !cleanData.name ||
+        !cleanData.subject ||
+        !cleanData.email ||
+        !cleanData.message
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "All fields are required."
+        });
     }
 
-    // 3. Field lengths
+    // 3. Check field lengths.
     if (
         cleanData.name.length > 100 ||
         cleanData.subject.length > 150 ||
         cleanData.email.length > 254 ||
         cleanData.message.length > 5000
     ) {
-        return res.status(400).json({ success: false, message: "One or more fields are too long." });
+        return res.status(400).json({
+            success: false,
+            message: "One or more fields are too long."
+        });
     }
 
-    // 4. Email format
+    // 4. Validate email format.
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanData.email)) {
-        return res.status(400).json({ success: false, message: "Please enter a valid email." });
+        return res.status(400).json({
+            success: false,
+            message: "Please enter a valid email."
+        });
     }
 
-    // 5. Save to MongoDB
+    // 5. Save message to MongoDB.
     try {
         if (mongoose.connection.readyState !== 1) {
             const notConnected = new Error("MongoDB is not connected.");
@@ -245,69 +311,160 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
 
         await Message.create(cleanData);
 
-        console.log(`Message from ${cleanData.email} saved to ${mongoose.connection.name} > Messages`);
+        console.log(
+            `Message from ${cleanData.email} saved to ` +
+            `${mongoose.connection.name} > Messages`
+        );
 
+        // 6. Send Gmail notification.
+        // Email failure will not delete or lose the saved MongoDB message.
+        console.log("========== EMAIL CONFIG CHECK ==========");
+        console.log("EMAIL_USER exists:", Boolean(process.env.EMAIL_USER));
+        console.log("EMAIL_PASS exists:", Boolean(process.env.EMAIL_PASS));
+        console.log("NOTIFICATION_EMAIL exists:", Boolean(process.env.NOTIFICATION_EMAIL));
+        console.log("========================================");
+        try {
+            if (
+                !process.env.EMAIL_USER ||
+                !process.env.EMAIL_PASS ||
+                !process.env.NOTIFICATION_EMAIL
+            ) {
+                throw new Error(
+                    "Email settings are missing. Configure EMAIL_USER, " +
+                    "EMAIL_PASS, and NOTIFICATION_EMAIL."
+                );
+            }
+
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: process.env.NOTIFICATION_EMAIL,
+                replyTo: cleanData.email,
+                subject: `New Portfolio Contact: ${cleanData.subject}`,
+
+                text: [
+                    "You have received a new message through your portfolio website.",
+                    "",
+                    `Name: ${cleanData.name}`,
+                    `Email: ${cleanData.email}`,
+                    `Subject: ${cleanData.subject}`,
+                    "",
+                    "Message:",
+                    cleanData.message
+                ].join("\n")
+            });
+
+            console.log("✅ Email notification sent successfully!");
+
+        } catch (emailError) {
+            console.error(
+                "❌ Email notification failed:",
+                emailError.message
+            );
+        }
+
+        // 7. Send success response to frontend.
         return res.status(201).json({
             success: true,
             message: "Your message has been sent successfully!"
         });
+
     } catch (error) {
         const { status, hint } = describeDatabaseError(error);
 
         console.error("\n========== CONTACT FORM ERROR ==========");
-        console.error("Error name   :", error.name);
-        console.error("Error code   :", error.code, error.codeName || "");
+        console.error("Error name:", error.name);
+        console.error("Error code:", error.code, error.codeName || "");
         console.error("Error message:", error.message);
-        if (hint) console.error("How to fix   :", hint);
+
+        if (hint) {
+            console.error("How to fix:", hint);
+        }
+
         console.error("========================================\n");
 
-        // While developing, show the real reason on the page. When live, stay generic.
         const visibleMessage = IS_PRODUCTION
             ? PUBLIC_MESSAGES[status] || PUBLIC_MESSAGES[500]
             : hint || PUBLIC_MESSAGES[status] || PUBLIC_MESSAGES[500];
 
-        return res.status(status).json({ success: false, message: visibleMessage });
+        return res.status(status).json({
+            success: false,
+            message: visibleMessage
+        });
     }
 });
 
-// Unknown routes
+/* =========================================================
+   ERROR HANDLING
+========================================================= */
+
+// Unknown routes.
 app.use((req, res) => {
-    res.status(404).json({ success: false, message: "API route not found." });
+    res.status(404).json({
+        success: false,
+        message: "API route not found."
+    });
 });
 
-// Any other error (blocked by CORS, broken JSON, oversized body...) is answered with JSON,
-// so the frontend always receives something it can read.
+// Handle CORS, JSON, and other errors.
 app.use((err, req, res, next) => {
-    if (res.headersSent) return next(err);
+    if (res.headersSent) {
+        return next(err);
+    }
 
     if (err.message === "Not allowed by CORS") {
-        return res.status(403).json({ success: false, message: "This website is not allowed to use this API." });
+        return res.status(403).json({
+            success: false,
+            message: "This website is not allowed to use this API."
+        });
     }
+
     if (err.type === "entity.parse.failed") {
-        return res.status(400).json({ success: false, message: "Invalid request data." });
+        return res.status(400).json({
+            success: false,
+            message: "Invalid request data."
+        });
     }
+
     if (err.type === "entity.too.large") {
-        return res.status(413).json({ success: false, message: "Your message is too large." });
+        return res.status(413).json({
+            success: false,
+            message: "Your message is too large."
+        });
     }
 
     console.error("Unhandled error:", err);
-    return res.status(500).json({ success: false, message: PUBLIC_MESSAGES[500] });
+
+    return res.status(500).json({
+        success: false,
+        message: PUBLIC_MESSAGES[500]
+    });
 });
 
-/* ==========================================================================
-   Start-up
-   ========================================================================== */
+/* =========================================================
+   SERVER START-UP
+========================================================= */
 
-mongoose.connection.on("disconnected", () => console.warn("⚠️  MongoDB disconnected."));
-mongoose.connection.on("reconnected", () => console.log("✅ MongoDB reconnected."));
+mongoose.connection.on("disconnected", () => {
+    console.warn("⚠️ MongoDB disconnected.");
+});
+
+mongoose.connection.on("reconnected", () => {
+    console.log("✅ MongoDB reconnected.");
+});
 
 async function verifyDatabaseAccess() {
     try {
         await Message.findOne().select("_id").lean();
+
         console.log("✅ Database access check passed.");
+
     } catch (error) {
         const { hint } = describeDatabaseError(error);
-        console.warn("⚠️  Database access check failed:", hint || error.message);
+
+        console.warn(
+            "⚠️ Database access check failed:",
+            hint || error.message
+        );
     }
 }
 
@@ -319,13 +476,13 @@ async function startServer() {
         fatal("MONGODB_URI is missing. Add it to your .env file.");
     }
 
-    // Catch a bad database name now, instead of failing later on the first submission.
+    // Validate database name.
     const nameCheck = validateDatabaseName(dbName);
+
     if (!nameCheck.valid) {
         fatal(
             `DB_NAME="${dbName}" ${nameCheck.reason}.\n` +
-            '   MongoDB database names cannot contain spaces or any of / \\ . " $\n' +
-            "   Fix it in your .env file, for example:  DB_NAME=MyPortfolio"
+            'MongoDB database names cannot contain / \\ . " $ or a null character.'
         );
     }
 
@@ -339,25 +496,37 @@ async function startServer() {
 
         console.log("MongoDB connected successfully!");
         console.log("Database:", mongoose.connection.name);
+
     } catch (error) {
         const { hint } = describeDatabaseError(error);
+
         console.error("\n❌ MongoDB connection failed!");
-        if (hint) console.error("How to fix:", hint);
+
+        if (hint) {
+            console.error("How to fix:", hint);
+        }
+
         console.error(error);
+
         process.exit(1);
     }
 
     await verifyDatabaseAccess();
 
     app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log("Waiting for contact form submissions...");
-});
+        console.log(`Server running on port ${PORT}`);
+        console.log("Waiting for contact form submissions...");
+    });
 }
 
-// Only start the server when this file is run directly (so it can also be tested)
+// Start server only when this file is run directly.
 if (require.main === module) {
     startServer();
 }
 
-module.exports = { app, validateDatabaseName, describeDatabaseError, startServer };
+module.exports = {
+    app,
+    validateDatabaseName,
+    describeDatabaseError,
+    startServer
+};
